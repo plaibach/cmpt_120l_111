@@ -18,30 +18,41 @@
 
    <script type="text/javascript">
 
-      function btnGo_click() {
-         var userInput = document.getElementById("txtCommand").value;
-         var userLogEntry = "";
-         var response = "";
-         
-            if (userInput === "Hello") {
-               response = "How are you?";
-            } else {
-               if (userInput === "I am fine") {
-                  response = "Really?";
-               } else {
-                  response = "What?";
-               }
-            }
+      var currentLocation = "Lobby";
+      var hasVisitedRoom1 = false;
+      var hasVisitedRoom2 = false;
+      var hasVisitedRoom3 = false;
+      var hasVisitedRoom4 = false;
+      var totalScore = 0;
 
-            // set up special parameters for blank txtCommand
-            if (userInput === "") {
-               userLogEntry = ""
-               response = "Sorry, I didn't quite catch that...";
-            } else {
-               userLogEntry = "Q: " + userInput + "\n";
-            }
-            
-         document.getElementById("taLog").value += userLogEntry + "A: " + response + "\n\n";
+      function updateWindow(response) {
+         var textWindow = document.getElementById("taLog");
+         textWindow.value = response + "\n\n" + taLog.value
+      }
+      
+      function btnGoWest() {
+         var response = "You just went West.";
+         updateWindow (response);
+      }
+
+      function btnGoNorth() {
+         var response = "You just went North.";
+         updateWindow (response);
+      }
+
+      function btnGoSouth() {
+         var response = "You just went South.";
+         updateWindow (response);
+      }
+
+      function btnGoEast() {
+         var response = "You just went East.";
+         updateWindow (response);
+      }
+      
+      function btnGo_click() {
+         var response = "I don't understand. \nJust use the buttons!";
+         updateWindow (response);
       }
 
    </script>
@@ -50,31 +61,46 @@
 <body>
 
    <h1> Victoria's Secret </h1>
-   <h2 style="color:pink"> A story of Death and Lingerie<br>
-   Paul Laibach </h2>
+   <h2 style="color:pink"> A Journey of Death and Lingerie, by Paul Laibach </h2>
    <br>
+      Score: 
+      document.write(totalScore)
+      
+   <br>
+      <input type="button"
+             value="West" 
+             onclick="btnGoWest();" />
 
-   Q:
+      <input type="button"
+             value="North" 
+             onclick="btnGoNorth();" />
+
+      <input type="button"
+             value="South" 
+             onclick="btnGoSouth();" />
+
+      <input type="button"
+             value="East" 
+             onclick="btnGoEast();" />
+   <br>
       <input type="text"
              id = "txtCommand"
              name="txtCommand">
-
+             
       <input type="button"
              value="Go" 
              onclick="btnGo_click();" />
    <br>
     
-   A:
-      <textarea rows="12" cols="48" id="taLog"></textarea>
+   <textarea rows="12" cols="48" id="taLog">You are at the start in the lobby.</textarea>
+
    <br>
    <br>
-   <br>
-   <br>
-   
    <!-- mailto: link to send you e-mail -->
    <a href="mailto:marist@laibach.net">Email me!</a>
    <br>
-
+   <br>
+   
    <p class="footer">
       <a href="http://validator.w3.org/#validate_by_input">Validate as HTML5</a>
       <br>
