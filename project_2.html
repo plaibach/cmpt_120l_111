@@ -19,42 +19,78 @@
    <script type="text/javascript">
 
       var currentLocation = "Room1";
-      var hasVisitedRoom1 = false;
+      var hasVisitedRoom1 = true;
       var hasVisitedRoom2 = false;
       var hasVisitedRoom3 = false;
       var hasVisitedRoom4 = false;
+      var hasVisitedRoom5 = false;
       var totalScore = 0;
 
-      function updateHistory(response) {
+      function updateHistory(response, userInput) {
          var historyWindow = document.getElementById("taHistory");
-         historyWindow.value = response + "\n\n" + taHistory.value;
+         historyWindow.value = response + "\n" + userInput + "\n\n" + taHistory.value;
          var statusWindow = document.getElementById("taStatus");
          statusWindow.value = "Score: " + totalScore + "\n" + "Current Location: " + currentLocation;
       }
-      
-      function btnGoWest() {
-         var message = "You just went West.";
-         updateHistory (message);
-      }
 
       function btnGoNorth() {
-         var message = "You just went North.";
-         updateHistory (message);
+         var userInput = "[Clicked North]";
+            if (currentLocation === "Room1") {
+               var message = "You have entered Room2.";
+               if (hasVisitedRoom2 === false) {
+                  totalScore = totalScore + 5;
+               }
+               hasVisitedRoom2 = true;
+               currentLocation = "Room2";
+               updateHistory (message, userInput);
+            } else {
+                  if (currentLocation === "Room2") {
+                     var message = "You have entered Room3.";
+                     if (hasVisitedRoom3 === false) {
+                        totalScore = totalScore + 5;
+                     }
+                     hasVisitedRoom3 = true;
+                     currentLocation = "Room3";
+                     updateHistory (message, userInput);
+                  } else {
+                        if (currentLocation === "Room3") {
+                           var message = "You have fallen into Room4,\nwelcome to THE ABYSS!";
+                           if (hasVisitedRoom4 === false) {
+                              totalScore = totalScore + 5;
+                           }
+                           hasVisitedRoom4 = true;
+                           currentLocation = "Room4";
+                           updateHistory (message, userInput);
+                        }
+                    }
+              }
+      }
+
+      function btnGoWest() {
+         var userInput = "[Clicked West]";
+            var message = "You just went West.";
+         //
+         updateHistory (message, userInput);
       }
 
       function btnGoSouth() {
-         var message = "You just went South.";
-         updateHistory (message);
+         var userInput = "[Clicked South]";
+            var message = "You just went South.";
+         //
+         updateHistory (message, userInput);
       }
 
       function btnGoEast() {
-         var message = "You just went East.";
-         updateHistory (message);
+         var userInput = "[Clicked East]";
+            var message = "You just went East.";
+         //
+         updateHistory (message, userInput);
       }
       
       function btnGo_click() {
-         var message = "Sorry, I don't understand...\nJust use the buttons for now!";
-         updateHistory (message);
+         var userInput = "[Entered any text command]";
+            var message = "Sorry, I don't understand... Just use the buttons for now!";
+         updateHistory (message, userInput);
       }
 
    </script>
