@@ -35,6 +35,8 @@
 
       function btnGoNorth() {
          var userInput = "[Clicked North]";
+
+            // Begin conditionals for function btnGoNorth
             if (currentLocation === "Room1") {
                var message = "You have entered Room2.";
                if (hasVisitedRoom2 === false) {
@@ -63,7 +65,7 @@
                            updateHistory (message, userInput);
                         }  else {
                               if (currentLocation === "Room4") {
-                                 var message = "Nope! You're in Room4, THE ABYSS. Nothing but smooth, solid, and very tall wall in that direction...";
+                                 var message = "Nope... You're in Room4, THE ABYSS! Nothing but smooth, solid, and very tall wall in that direction.";
                                  updateHistory (message, userInput);
                               }  else {
                                     if (currentLocation === "Room5") {
@@ -76,16 +78,41 @@
                }
       }
 
-      function btnGoWest() {
-         var userInput = "[Clicked West]";
-            var message = "You just went West.";
-         //
-         updateHistory (message, userInput);
-      }
-
       function btnGoSouth() {
          var userInput = "[Clicked South]";
-            var message = "You just went South.";
+
+            // Begin conditionals for function btnGoSouth
+            if (currentLocation === "Room1") {
+               var message = "Sorry, the door locked behind you when you stepped in. There is a keyhole, but you don't have any keys.";
+               updateHistory (message, userInput);
+            }  else {
+                  if (currentLocation === "Room2") {
+                     var message = "You have returned to Room1. This isn't getting you anywhere.";
+                     currentLocation = "Room1";
+                     updateHistory (message, userInput);
+                  }  else {
+                        if (currentLocation === "Room3") {
+                           var message = "You have returned to Room2. Boring.";
+                           currentLocation = "Room2";
+                           updateHistory (message, userInput);
+                        }  else {
+                              if (currentLocation === "Room4") {
+                                 var message = "Nope... You're in Room4, THE ABYSS! Nothing but smooth, solid, and very tall wall in that direction.";
+                                 updateHistory (message, userInput);
+                              }  else {
+                                    if (currentLocation === "Room5") {
+                                       var message = "Erm... sorry. No place to go in that direction.";
+                                       updateHistory (message, userInput);
+                                    }
+                                 }
+                           }
+                     }
+               }
+      }
+
+      function btnGoEast() {
+         var userInput = "[Clicked East]";
+            var message = "You just went East.";
          //
          updateHistory (message, userInput);
       }
