@@ -18,41 +18,43 @@
 
    <script type="text/javascript">
 
-      var currentLocation = "Lobby";
+      var currentLocation = "Room1";
       var hasVisitedRoom1 = false;
       var hasVisitedRoom2 = false;
       var hasVisitedRoom3 = false;
       var hasVisitedRoom4 = false;
       var totalScore = 0;
 
-      function updateWindow(response) {
-         var textWindow = document.getElementById("taLog");
-         textWindow.value = response + "\n\n" + taLog.value
+      function updateHistory(response) {
+         var historyWindow = document.getElementById("taHistory");
+         historyWindow.value = response + "\n\n" + taHistory.value;
+         var statusWindow = document.getElementById("taStatus");
+         statusWindow.value = "Score: " + totalScore + "\n" + "Current Location: " + currentLocation;
       }
       
       function btnGoWest() {
-         var response = "You just went West.";
-         updateWindow (response);
+         var message = "You just went West.";
+         updateHistory (message);
       }
 
       function btnGoNorth() {
-         var response = "You just went North.";
-         updateWindow (response);
+         var message = "You just went North.";
+         updateHistory (message);
       }
 
       function btnGoSouth() {
-         var response = "You just went South.";
-         updateWindow (response);
+         var message = "You just went South.";
+         updateHistory (message);
       }
 
       function btnGoEast() {
-         var response = "You just went East.";
-         updateWindow (response);
+         var message = "You just went East.";
+         updateHistory (message);
       }
       
       function btnGo_click() {
-         var response = "I don't understand. \nJust use the buttons!";
-         updateWindow (response);
+         var message = "Sorry, I don't understand...\nJust use the buttons for now!";
+         updateHistory (message);
       }
 
    </script>
@@ -62,10 +64,10 @@
 
    <h1> Victoria's Secret </h1>
    <h2 style="color:pink"> A Journey of Death and Lingerie, by Paul Laibach </h2>
+
+   <textarea rows="2" cols="48" id="taStatus"></textarea>
    <br>
-      Score: 
-      document.write(totalScore)
-      
+
    <br>
       <input type="button"
              value="West" 
@@ -91,11 +93,11 @@
              value="Go" 
              onclick="btnGo_click();" />
    <br>
-    
-   <textarea rows="12" cols="48" id="taLog">You are at the start in the lobby.</textarea>
 
+   <textarea rows="12" cols="48" id="taHistory">You have just entered an unmarked door at the south end of a nondescript building. The door swings gently shut behind you and latches with a slight, yet somehow ominous "click."</textarea>
    <br>
    <br>
+
    <!-- mailto: link to send you e-mail -->
    <a href="mailto:marist@laibach.net">Email me!</a>
    <br>
