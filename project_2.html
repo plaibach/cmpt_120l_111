@@ -18,6 +18,7 @@
 
    <script type="text/javascript">
 
+      // Set global variables used across functions
       var currentLocation = "Room1";
       var hasVisitedRoom1 = true;
       var hasVisitedRoom2 = false;
@@ -26,6 +27,7 @@
       var hasVisitedRoom5 = false;
       var totalScore = 0;
 
+      // Build messages for History and Status displays
       function updateHistory(message, userInput) {
          var historyWindow = document.getElementById("taHistory");
          historyWindow.value = message + "\n" + userInput + "\n\n" + taHistory.value;
@@ -65,7 +67,7 @@
                            updateHistory (message, userInput);
                         }  else {
                               if (currentLocation === "Room4") {
-                                 var message = "Nope... You're in Room4, THE ABYSS! Nothing but smooth, solid, and very tall wall in that direction.";
+                                 var message = "It rubs the lotion on its skin or else it gets the hose again.";
                                  updateHistory (message, userInput);
                               }  else {
                                     if (currentLocation === "Room5") {
@@ -93,11 +95,16 @@
                   }  else {
                         if (currentLocation === "Room3") {
                            var message = "You have returned to Room2. Boring.";
+                           // In basic sequential (walking) navigation, the totalScore update logic, and hasVisitedRoom# update are not necessary. However, let's leave this code in place, to accomodate implementation of navigation by teleportation, hyperspace, or wormhole.
+                           if (hasVisitedRoom2 === false) {
+                              totalScore = totalScore + 5;
+                           }
+                           hasVisitedRoom2 = true;
                            currentLocation = "Room2";
                            updateHistory (message, userInput);
                         }  else {
                               if (currentLocation === "Room4") {
-                                 var message = "Nope... You're in Room4, THE ABYSS! Nothing but smooth, solid, and very tall wall in that direction.";
+                                 var message = "It rubs the lotion on its skin or else it gets the hose again.";
                                  updateHistory (message, userInput);
                               }  else {
                                     if (currentLocation === "Room5") {
@@ -112,18 +119,75 @@
 
       function btnGoEast() {
          var userInput = "[Clicked East]";
-            var message = "You just went East.";
-         //
-         updateHistory (message, userInput);
+
+            // Begin conditionals for function btnGoEast
+            if (currentLocation === "Room1") {
+               var message = "Erm... sorry. No place to go in that direction.";
+               updateHistory (message, userInput);
+            }  else {
+                  if (currentLocation === "Room2") {
+                     var message = "Erm... sorry. No place to go in that direction.";
+                     updateHistory (message, userInput);
+                  }  else {
+                        if (currentLocation === "Room3") {
+                           var message = "Erm... sorry. No place to go in that direction.";
+                           updateHistory (message, userInput);
+                        }  else {
+                              if (currentLocation === "Room4") {
+                                 var message = "It rubs the lotion on its skin or else it gets the hose again.";
+                                 updateHistory (message, userInput);
+                              }  else {
+                                    if (currentLocation === "Room5") {
+                                       var message = "Back in Room2 again. Look at your life. Think about your choices.";
+                                       // In basic sequential (walking) navigation, the totalScore update logic, and hasVisitedRoom# update are not necessary. However, let's leave this code in place, to accomodate implementation of navigation by teleportation, hyperspace, or wormhole.
+                                       if (hasVisitedRoom2 === false) {
+                                          totalScore = totalScore + 5;
+                                       }
+                                       hasVisitedRoom2 = true;
+                                       currentLocation = "Room2";
+                                       updateHistory (message, userInput);
+                                    }
+                                 }
+                           }
+                     }
+               }
       }
 
-      function btnGoEast() {
-         var userInput = "[Clicked East]";
-            var message = "You just went East.";
-         //
-         updateHistory (message, userInput);
+      function btnGoWest() {
+         var userInput = "[Clicked West]";
+
+            // Begin conditionals for function btnGoWest
+            if (currentLocation === "Room1") {
+               var message = "Erm... sorry. No place to go in that direction.";
+               updateHistory (message, userInput);
+            }  else {
+                  if (currentLocation === "Room2") {
+                     var message = "You have entered Room5, the Annex.";
+                     if (hasVisitedRoom5 === false) {
+                        totalScore = totalScore + 5;
+                     }
+                     hasVisitedRoom5 = true;
+                     currentLocation = "Room5";
+                     updateHistory (message, userInput);
+                  }  else {
+                        if (currentLocation === "Room3") {
+                           var message = "Erm... sorry. No place to go in that direction.";
+                           updateHistory (message, userInput);
+                        }  else {
+                              if (currentLocation === "Room4") {
+                                 var message = "It rubs the lotion on its skin or else it gets the hose again.";
+                                 updateHistory (message, userInput);
+                              }  else {
+                                    if (currentLocation === "Room5") {
+                                       var message = "Erm... sorry. No place to go in that direction.";
+                                       updateHistory (message, userInput);
+                                    }
+                                 }
+                           }
+                     }
+               }
       }
-      
+
       function btnGo_click() {
          var userInput = "[Entered any text command]";
             var message = "Sorry, I don't understand... Just use the buttons for now!";
@@ -140,7 +204,6 @@
 
    <textarea rows="2" cols="48" id="taStatus"></textarea>
    <br>
-
    <br>
       <input type="button"
              value="West" 
@@ -158,6 +221,8 @@
              value="East" 
              onclick="btnGoEast();" />
    <br>
+      <!-- This will be used in a later version to allow user text input.
+           I would like figure out how to clear the input after clicking go. -->
       <input type="text"
              id = "txtCommand"
              name="txtCommand">
@@ -182,7 +247,6 @@
       <a href="http://jigsaw.w3.org/css-validator/#validate_by_input">Validate CSS</a>
    </p>
 
-   <!--
    <p>
       <a href="http://jigsaw.w3.org/css-validator/check/referer">
          <img style="border:0;width:88px;height:31px"
@@ -190,7 +254,6 @@
             alt="Valid CSS!" />
       </a>
    </p>
-   -->
 
 </body>
 
