@@ -26,9 +26,9 @@
       var hasVisitedRoom5 = false;
       var totalScore = 0;
 
-      function updateHistory(response, userInput) {
+      function updateHistory(message, userInput) {
          var historyWindow = document.getElementById("taHistory");
-         historyWindow.value = response + "\n" + userInput + "\n\n" + taHistory.value;
+         historyWindow.value = message + "\n" + userInput + "\n\n" + taHistory.value;
          var statusWindow = document.getElementById("taStatus");
          statusWindow.value = "Score: " + totalScore + "\n" + "Current Location: " + currentLocation;
       }
@@ -43,7 +43,7 @@
                hasVisitedRoom2 = true;
                currentLocation = "Room2";
                updateHistory (message, userInput);
-            } else {
+            }  else {
                   if (currentLocation === "Room2") {
                      var message = "You have entered Room3.";
                      if (hasVisitedRoom3 === false) {
@@ -52,18 +52,28 @@
                      hasVisitedRoom3 = true;
                      currentLocation = "Room3";
                      updateHistory (message, userInput);
-                  } else {
+                  }  else {
                         if (currentLocation === "Room3") {
-                           var message = "You have fallen into Room4,\nwelcome to THE ABYSS!";
+                           var message = "You have fallen a long distance down into Room4. Welcome to THE ABYSS! There is no way out :-O (Or... is there?)";
                            if (hasVisitedRoom4 === false) {
                               totalScore = totalScore + 5;
                            }
                            hasVisitedRoom4 = true;
                            currentLocation = "Room4";
                            updateHistory (message, userInput);
-                        }
-                    }
-              }
+                        }  else {
+                              if (currentLocation === "Room4") {
+                                 var message = "Nope! You're in Room4, THE ABYSS. Nothing but smooth, solid, and very tall wall in that direction...";
+                                 updateHistory (message, userInput);
+                              }  else {
+                                    if (currentLocation === "Room5") {
+                                       var message = "Erm... sorry. No place to go in that direction.";
+                                       updateHistory (message, userInput);
+                                    }
+                                 }
+                           }
+                     }
+               }
       }
 
       function btnGoWest() {
