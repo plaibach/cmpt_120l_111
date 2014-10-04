@@ -46,7 +46,6 @@
                }
                hasVisitedRoom2 = true;
                currentLocation = "Room2";
-               updateHistory (message, userInput);
             }  else {
                   if (currentLocation === "Room2") {
                      var message = "You have entered Room3.";
@@ -55,7 +54,6 @@
                      }
                      hasVisitedRoom3 = true;
                      currentLocation = "Room3";
-                     updateHistory (message, userInput);
                   }  else {
                         if (currentLocation === "Room3") {
                            var message = "You have fallen a long distance down into Room4. Welcome to THE ABYSS! There is no way out :-O (Or... is there?)";
@@ -64,20 +62,18 @@
                            }
                            hasVisitedRoom4 = true;
                            currentLocation = "Room4";
-                           updateHistory (message, userInput);
                         }  else {
                               if (currentLocation === "Room4") {
                                  var message = "It rubs the lotion on its skin or else it gets the hose again.";
-                                 updateHistory (message, userInput);
                               }  else {
                                     if (currentLocation === "Room5") {
                                        var message = "Erm... sorry. No place to go in that direction.";
-                                       updateHistory (message, userInput);
                                     }
                                  }
                            }
                      }
                }
+         updateHistory (message, userInput);
       }
 
       function btnGoSouth() {
@@ -86,12 +82,10 @@
             // Begin conditionals for function btnGoSouth
             if (currentLocation === "Room1") {
                var message = "Sorry, the door locked behind you when you stepped in. There is a keyhole, but you don't have any keys.";
-               updateHistory (message, userInput);
             }  else {
                   if (currentLocation === "Room2") {
                      var message = "You have returned to Room1. This isn't getting you anywhere.";
                      currentLocation = "Room1";
-                     updateHistory (message, userInput);
                   }  else {
                         if (currentLocation === "Room3") {
                            var message = "You have returned to Room2. Boring.";
@@ -101,20 +95,18 @@
                            }
                            hasVisitedRoom2 = true;
                            currentLocation = "Room2";
-                           updateHistory (message, userInput);
                         }  else {
                               if (currentLocation === "Room4") {
                                  var message = "It rubs the lotion on its skin or else it gets the hose again.";
-                                 updateHistory (message, userInput);
                               }  else {
                                     if (currentLocation === "Room5") {
                                        var message = "Erm... sorry. No place to go in that direction.";
-                                       updateHistory (message, userInput);
                                     }
                                  }
                            }
                      }
                }
+         updateHistory (message, userInput);
       }
 
       function btnGoEast() {
@@ -123,19 +115,15 @@
             // Begin conditionals for function btnGoEast
             if (currentLocation === "Room1") {
                var message = "Erm... sorry. No place to go in that direction.";
-               updateHistory (message, userInput);
             }  else {
                   if (currentLocation === "Room2") {
                      var message = "Erm... sorry. No place to go in that direction.";
-                     updateHistory (message, userInput);
                   }  else {
                         if (currentLocation === "Room3") {
                            var message = "Erm... sorry. No place to go in that direction.";
-                           updateHistory (message, userInput);
                         }  else {
                               if (currentLocation === "Room4") {
                                  var message = "It rubs the lotion on its skin or else it gets the hose again.";
-                                 updateHistory (message, userInput);
                               }  else {
                                     if (currentLocation === "Room5") {
                                        var message = "Back in Room2 again. Look at your life. Think about your choices.";
@@ -145,12 +133,12 @@
                                        }
                                        hasVisitedRoom2 = true;
                                        currentLocation = "Room2";
-                                       updateHistory (message, userInput);
                                     }
                                  }
                            }
                      }
                }
+         updateHistory (message, userInput);
       }
 
       function btnGoWest() {
@@ -159,7 +147,6 @@
             // Begin conditionals for function btnGoWest
             if (currentLocation === "Room1") {
                var message = "Erm... sorry. No place to go in that direction.";
-               updateHistory (message, userInput);
             }  else {
                   if (currentLocation === "Room2") {
                      var message = "You have entered Room5, the Annex.";
@@ -168,24 +155,21 @@
                      }
                      hasVisitedRoom5 = true;
                      currentLocation = "Room5";
-                     updateHistory (message, userInput);
                   }  else {
                         if (currentLocation === "Room3") {
                            var message = "Erm... sorry. No place to go in that direction.";
-                           updateHistory (message, userInput);
                         }  else {
                               if (currentLocation === "Room4") {
                                  var message = "It rubs the lotion on its skin or else it gets the hose again.";
-                                 updateHistory (message, userInput);
                               }  else {
                                     if (currentLocation === "Room5") {
                                        var message = "Erm... sorry. No place to go in that direction.";
-                                       updateHistory (message, userInput);
                                     }
                                  }
                            }
                      }
                }
+         updateHistory (message, userInput);
       }
 
       function btnGo_click() {
@@ -202,7 +186,7 @@
    <h1> Victoria's Secret </h1>
    <h2 style="color:pink"> A Journey of Death and Lingerie, by Paul Laibach </h2>
 
-   <textarea rows="2" cols="48" id="taStatus"></textarea>
+   <textarea rows="2" cols="48" id="taStatus" readonly></textarea>
    <br>
    <br>
       <input type="button"
@@ -232,7 +216,7 @@
              onclick="btnGo_click();" />
    <br>
 
-   <textarea rows="12" cols="48" id="taHistory">You have just entered an unmarked door at the south end of a nondescript building. The door swings gently shut behind you and latches with a slight, yet somehow ominous "click."</textarea>
+   <textarea rows="12" cols="48" id="taHistory" readonly>You have just entered an unmarked door at the south end of a nondescript building. The door swings gently shut behind you and latches with a slight, yet somehow ominous "click."</textarea>
    <br>
    <br>
 
