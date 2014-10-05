@@ -27,16 +27,19 @@
       var hasVisitedRoom5 = false;
       var totalScore = 0;
 
-      // Build messages for History and Status displays
+      // updateHistory receives and concatenates variables, appends history, and resets dirty placeholders
       function updateHistory(message, userInput) {
+         // Build messages for History and Status displays
          var historyWindow = document.getElementById("taHistory");
-         historyWindow.value = message + "\n" + userInput + "\n\n" + taHistory.value;
+            historyWindow.value = message + "\n" + userInput + "\n\n" + taHistory.value;
          var statusWindow = document.getElementById("taStatus");
-         statusWindow.value = "Score: " + totalScore + "\n" + "Current Location: " + currentLocation;
+            statusWindow.value = "Score: " + totalScore + "\n" + "Current Location: " + currentLocation;
+         // Valid command received, reset dirty placeholders
+         txtCommand.placeholder="Click direction above -or- Enter text command here"
       }
 
       function btnGoNorth() {
-         var userInput = "[Clicked North]";
+         var userInput = "[Clicked: North]";
 
             // Begin conditionals for function btnGoNorth
             if (currentLocation === "Room1") {
@@ -77,7 +80,7 @@
       }
 
       function btnGoSouth() {
-         var userInput = "[Clicked South]";
+         var userInput = "[Clicked: South]";
 
             // Begin conditionals for function btnGoSouth
             if (currentLocation === "Room1") {
@@ -110,7 +113,7 @@
       }
 
       function btnGoEast() {
-         var userInput = "[Clicked East]";
+         var userInput = "[Clicked: East]";
 
             // Begin conditionals for function btnGoEast
             if (currentLocation === "Room1") {
@@ -142,7 +145,7 @@
       }
 
       function btnGoWest() {
-         var userInput = "[Clicked West]";
+         var userInput = "[Clicked: West]";
 
             // Begin conditionals for function btnGoWest
             if (currentLocation === "Room1") {
@@ -172,10 +175,17 @@
          updateHistory (message, userInput);
       }
 
-      function btnGo_click() {
-         var userInput = "[Entered any text command]";
-            var message = "Sorry, I don't understand... Just use the buttons for now!";
-         updateHistory (message, userInput);
+      function goTxtCommand() {
+         if (txtCommand.value === "") {
+            txtCommand.placeholder = "Yo. Yur shootin' blanks... ya'll gotta type sumptin'!";
+         }  else {
+               var userInput = "[Typed: " + txtCommand.value + "]";
+               var message = "Sorry, I don't understand... Just use the buttons for now!";
+               updateHistory (message, userInput);
+               // txtCommand.value has been evaluated, used to construct userInput string, and passed to function updateHistory
+               // txtCommand.value is now reset to blank
+               txtCommand.value = "";
+            }
       }
 
    </script>
@@ -205,15 +215,19 @@
              value="East" 
              onclick="btnGoEast();" />
    <br>
-      <!-- This will be used in a later version to allow user text input.
-           I would like figure out how to clear the input after clicking go. -->
+      <!-- This will be used in a later version to allow user text input -->
       <input type="text"
              id = "txtCommand"
-             name="txtCommand">
+             name="txtCommand"
+             size="40"
+             placeholder="Click direction above -or- Enter text command here"
+             onkeypress="if (event.keyCode == 13) goTxtCommand();" />
              
       <input type="button"
+             id="btnGoTxtCommand"
+             name="btnGoTxtCommand"
              value="Go" 
-             onclick="btnGo_click();" />
+             onclick="goTxtCommand();" />
    <br>
 
    <textarea rows="12" cols="48" id="taHistory" readonly>You have just entered an unmarked door at the south end of a nondescript building. The door swings gently shut behind you and latches with a slight, yet somehow ominous "click."</textarea>
