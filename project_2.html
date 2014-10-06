@@ -1,9 +1,9 @@
 <!DOCTYPE HTML>
 <html>
 <!-- Paul C. Laibach
-   2014.10.02
+   2014.10.05
    Introduction to Programming
-   Project 2 -->
+   Project 2 - Game v0.2.3 -->
 
 <head>
    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -27,14 +27,16 @@
       var hasVisitedRoom5 = false;
       var totalScore = 0;
 
-      // updateHistory receives and concatenates variables, appends history, and resets dirty placeholders
+      // updateHistory receives and concatenates variables, appends history, and resets inputs and dirty placeholders
       function updateHistory(message, userInput) {
          // Build messages for History and Status displays
          var historyWindow = document.getElementById("taHistory");
             historyWindow.value = message + "\n" + userInput + "\n\n" + taHistory.value;
          var statusWindow = document.getElementById("taStatus");
             statusWindow.value = "Score: " + totalScore + "\n" + "Current Location: " + currentLocation;
-         // Valid command received, reset dirty placeholders
+         // txtCommand.value has either been evaluated and utilized, or not applied (and possibly dirty), so reset input to blank
+         txtCommand.value = "";
+         // Since we are here, some form of valid button or text command has been processed, so reset any dirty placeholders
          txtCommand.placeholder="Click direction above -or- Enter text command here"
       }
 
@@ -44,27 +46,32 @@
             // Begin conditionals for function btnGoNorth
             if (currentLocation === "Room1") {
                var message = "You have entered Room2.";
+               currentLocation = "Room2";
                if (hasVisitedRoom2 === false) {
                   totalScore = totalScore + 5;
                }
                hasVisitedRoom2 = true;
-               currentLocation = "Room2";
+
+               // Testing remove disabled attribute from btnWest
+               document.getElementById("btnWest").removeAttribute("disabled") ;
+
+               
             }  else {
                   if (currentLocation === "Room2") {
                      var message = "You have entered Room3.";
+                     currentLocation = "Room3";
                      if (hasVisitedRoom3 === false) {
                         totalScore = totalScore + 5;
                      }
                      hasVisitedRoom3 = true;
-                     currentLocation = "Room3";
                   }  else {
                         if (currentLocation === "Room3") {
                            var message = "You have fallen a long distance down into Room4. Welcome to THE ABYSS! There is no way out :-O (Or... is there?)";
+                           currentLocation = "Room4";
                            if (hasVisitedRoom4 === false) {
                               totalScore = totalScore + 5;
                            }
                            hasVisitedRoom4 = true;
-                           currentLocation = "Room4";
                         }  else {
                               if (currentLocation === "Room4") {
                                  var message = "It rubs the lotion on its skin or else it gets the hose again.";
@@ -92,12 +99,12 @@
                   }  else {
                         if (currentLocation === "Room3") {
                            var message = "You have returned to Room2. Boring.";
+                           currentLocation = "Room2";
                            // In basic sequential (walking) navigation, the totalScore update logic, and hasVisitedRoom# update are not necessary. However, let's leave this code in place, to accomodate implementation of navigation by teleportation, hyperspace, or wormhole.
                            if (hasVisitedRoom2 === false) {
                               totalScore = totalScore + 5;
                            }
                            hasVisitedRoom2 = true;
-                           currentLocation = "Room2";
                         }  else {
                               if (currentLocation === "Room4") {
                                  var message = "It rubs the lotion on its skin or else it gets the hose again.";
@@ -130,12 +137,12 @@
                               }  else {
                                     if (currentLocation === "Room5") {
                                        var message = "Back in Room2 again. Look at your life. Think about your choices.";
+                                       currentLocation = "Room2";
                                        // In basic sequential (walking) navigation, the totalScore update logic, and hasVisitedRoom# update are not necessary. However, let's leave this code in place, to accomodate implementation of navigation by teleportation, hyperspace, or wormhole.
                                        if (hasVisitedRoom2 === false) {
                                           totalScore = totalScore + 5;
                                        }
                                        hasVisitedRoom2 = true;
-                                       currentLocation = "Room2";
                                     }
                                  }
                            }
@@ -153,11 +160,11 @@
             }  else {
                   if (currentLocation === "Room2") {
                      var message = "You have entered Room5, the Annex.";
+                     currentLocation = "Room5";
                      if (hasVisitedRoom5 === false) {
                         totalScore = totalScore + 5;
                      }
                      hasVisitedRoom5 = true;
-                     currentLocation = "Room5";
                   }  else {
                         if (currentLocation === "Room3") {
                            var message = "Erm... sorry. No place to go in that direction.";
@@ -182,9 +189,6 @@
                var userInput = "[Typed: " + txtCommand.value + "]";
                var message = "Sorry, I don't understand... Just use the buttons for now!";
                updateHistory (message, userInput);
-               // txtCommand.value has been evaluated, used to construct userInput string, and passed to function updateHistory
-               // txtCommand.value is now reset to blank
-               txtCommand.value = "";
             }
       }
 
@@ -199,19 +203,25 @@
    <textarea rows="2" cols="48" id="taStatus" readonly></textarea>
    <br>
    <br>
+      <!-- Testing disabled attribute on btnWest -->
       <input type="button"
-             value="West" 
+             id="btnWest"
+             value="West"
+             disabled="disabled"
              onclick="btnGoWest();" />
 
       <input type="button"
+             id="btnNorth"
              value="North" 
              onclick="btnGoNorth();" />
 
       <input type="button"
+             id="btnSouth"
              value="South" 
              onclick="btnGoSouth();" />
 
       <input type="button"
+             id="btnEast"
              value="East" 
              onclick="btnGoEast();" />
    <br>
@@ -238,7 +248,7 @@
    <a href="mailto:marist@laibach.net">Email me!</a>
    <br>
    <br>
-   
+
    <p class="footer">
       <a href="http://validator.w3.org/#validate_by_input">Validate as HTML5</a>
       <br>
