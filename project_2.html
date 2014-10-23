@@ -37,6 +37,14 @@
          background-color: black;
          color: lime;
       }
+      input[type="button"] {
+         background-color: green;
+         color: white;
+      }
+      input[type="button"]:disabled {
+         background-color: red;
+         color: white;
+      }
       .footer {font-style:italic;}
    </style>
 
@@ -50,12 +58,51 @@
       var hasVisitedRoom3 = false;
       var hasVisitedRoom4 = false;
       var hasVisitedRoom5 = false;
+      var hasVisitedRoom6 = false;
       var totalScore = 0;
 
+      // Set focus to txtInput called from onload and updateDisplay
       function focusOnTxtInput() {
          document.getElementById("txtCommand").focus();
       }
-      
+      // Set buttons status called from on load and updateDisplay
+      function setBtnState(currentLoc) {
+         if (currentLoc === "Room1") {
+            document.getElementById("btnWest").setAttribute("disabled", true);
+            document.getElementById("btnNorth").removeAttribute("disabled");
+            document.getElementById("btnSouth").setAttribute("disabled", true);
+            document.getElementById("btnEast").setAttribute("disabled", true);
+         }  else {
+               if (currentLoc === "Room2") {
+                  document.getElementById("btnWest").removeAttribute("disabled");
+                  document.getElementById("btnNorth").removeAttribute("disabled");
+                  document.getElementById("btnSouth").removeAttribute("disabled");
+                  document.getElementById("btnEast").setAttribute("disabled", true);
+               }  else {
+                     if (currentLoc === "Room3") {
+                        document.getElementById("btnWest").setAttribute("disabled", true);
+                        document.getElementById("btnNorth").removeAttribute("disabled");
+                        document.getElementById("btnSouth").removeAttribute("disabled");
+                        document.getElementById("btnEast").setAttribute("disabled", true);
+                     }  else {
+                           if (currentLoc === "Room4") {
+                              document.getElementById("btnWest").setAttribute("disabled", true);
+                              document.getElementById("btnNorth").setAttribute("disabled", true);
+                              document.getElementById("btnSouth").setAttribute("disabled", true);
+                              document.getElementById("btnEast").setAttribute("disabled", true);
+                           }  else {
+                                 if (currentLoc === "Room5") {
+                                    document.getElementById("btnWest").setAttribute("disabled", true);
+                                    document.getElementById("btnNorth").setAttribute("disabled", true);
+                                    document.getElementById("btnSouth").setAttribute("disabled", true);
+                                    document.getElementById("btnEast").removeAttribute("disabled");
+                                 }
+                              }
+                        }
+                  }
+            }
+      }
+
       // updateDisplay receives and concatenates variables, appends history, resets inputs and dirty placeholders, and restores focus to input txtCommand
       function updateDisplay(userAction, breadCrumbs, message) {
          // Build displays for History and Status textareas
@@ -67,9 +114,27 @@
          txtCommand.value = "";
          // Since we are here, some form of valid button or text command has been processed, so reset any dirty placeholders
          txtCommand.placeholder="Click direction above -or- Enter text command here"
+         // Set focus to input txtCommand
          focusOnTxtInput();
+         // Set button status based upon current location
+         setBtnState(currentLoc);
       }
 
+      function escapeAbyss(userAction) {
+         var breadCrumbs = "function escapeAbyss";
+         var message = "The scent of the lotion overwhelms you. You fight to hold on to consciousness, but become dizzy and confused. It seems you are tumbling through space; through a blurred jumble of doors and passages.\n\nYour flight halts abruptly and you find yourself suspended and spinning slowly in a room with glowing walls and ceiling. There is no floor below, just a shaft leading downward and away out of sight.\n\nThere is a bright flash and you are released to fall painfully into the chute, tumbling and landing in a heap. Congratulations! You have successfully employed the portal - you escaped the pit, traversed Room 6 and the chute, and made it to the Annex.";
+         currentLoc = "Room5";
+         if (hasVisitedRoom6 === false) {
+            totalScore = totalScore + 5;
+         }
+         if (hasVisitedRoom5 === false) {
+            totalScore = totalScore + 5;
+         }
+         hasVisitedRoom6 = true;
+         hasVisitedRoom5 = true;
+         updateDisplay (userAction, breadCrumbs, message);
+      }
+      
       function attemptGoWest(userAction) {
          var breadCrumbs = "function attemptGoWest";
          // Begin conditionals for function attemptGoWest
@@ -110,10 +175,6 @@
                totalScore = totalScore + 5;
             }
             hasVisitedRoom2 = true;
-            //
-            // Testing remove disabled attribute from btnWest
-            document.getElementById("btnWest").removeAttribute("disabled") ;
-            //
          }  else {
                if (currentLoc === "Room2") {
                   var message = "You have entered Room3.";
@@ -218,6 +279,7 @@
                // Convert string to lower case for analysis
                var txtCommandLowcase = txtCommand.value.toLowerCase();
                // Check user text input for constrained directional commands
+               // Otherwise explain valid commands
                if (txtCommandLowcase === "w") {
                   attemptGoWest(userAction)
                }  else {
@@ -225,26 +287,38 @@
                         attemptGoNorth(userAction);
                      }  else {
                            if (txtCommandLowcase === "s") {
-                           attemptGoSouth(userAction);                     
+                              attemptGoSouth(userAction);
                            }  else {
                                  if (txtCommandLowcase === "e") {
-                                    attemptGoEast(userAction);                     
+                                    attemptGoEast(userAction);
                                  }  else {
-                                       var message = "Please enter \"W\", \"N\", \"S\", or \"E\"; then press Enter or click \'Go\"\n(You may use UPPER or lower case letters.)";
-                                       updateDisplay (userAction, breadCrumbs, message);
+                                       if (currentLoc === "Room4") {
+                                          var magicPhrase = txtCommandLowcase.search("the lotion");
+                                          if (magicPhrase !== -1) {
+                                             escapeAbyss(userAction);
+                                          }  else {
+                                                var message = "Please enter \"W\", \"N\", \"S\", or \"E\"; then press Enter or click \'Go\"\n(You may use UPPER or lower case letters.)";
+                                                updateDisplay (userAction, breadCrumbs, message);
+                                             }
+                                       // This is obviously redundant, but I need to move on for now.
+                                       }  else {
+                                             var message = "Please enter \"W\", \"N\", \"S\", or \"E\"; then press Enter or click \'Go\"\n(You may use UPPER or lower case letters.)";
+                                             updateDisplay (userAction, breadCrumbs, message);
+                                          }
                                     }
                               }
                         }
                   }
-            }
+           }
       }
 
    </script>
 
 </head>
 
-
-<body onload="focusOnTxtInput();">
+<!-- Set focus to input txtCommand
+     Set directional buttons to initial valid status -->
+<body onload="focusOnTxtInput(); setBtnState(currentLoc);">
 
    <h1>
       Victoria's Secret
@@ -262,11 +336,9 @@
    <br>
    <br>
 
-      <!-- Testing disabled attribute on btnWest -->
       <input type="button"
              id="btnWest"
              value="West"
-             disabled="disabled"
              onclick="attemptGoWest(btnWest.id);" />
 
       <input type="button"
@@ -301,7 +373,7 @@
    <br>
    <br>
 
-   <textarea id="taHistory" name="taHistory" rows="12" cols="48" readonly>You have just entered an unmarked door at the south end of a nondescript building. The door swings gently shut behind you and latches with a slight, yet somehow ominous "click."</textarea>
+   <textarea id="taHistory" name="taHistory" rows="12" cols="96" readonly>You have just entered an unmarked door at the south end of a nondescript building. The door swings gently shut behind you and latches with a slight, yet somehow ominous "click."</textarea>
    <br>
    <br>
 
