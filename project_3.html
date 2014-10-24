@@ -1,0 +1,401 @@
+<!DOCTYPE HTML>
+<html>
+<!-- Paul C. Laibach
+   Introduction to Programming
+   Project 3 - Game v0.4
+   Due 2014.10.23 -->
+
+<head>
+   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+   <meta name="author" content="Paul C. Laibach" />
+   <title>Project 2</title>
+
+   <!-- padding: top right bottom left; --> 
+   <style type="text/css">
+      h1 {
+         font-family:'lucida handwriting', 'comic sans ms', cursive;
+         color:purple;
+         font-size: 235%;
+      }
+      h2 {
+         font-family:'comic sans ms', cursive;
+         color:red;
+         font-size: 140%;
+      }
+      h3 {
+         font-family:'courier new';
+         font-size: 120%;
+      }
+      textarea {
+         outline: none;
+      }
+      textarea[name=taStatus] {
+         resize: none;
+         background-color: lightpink;
+      }
+      textarea[name=taHistory] {
+         background-color: black;
+         color: lime;
+      }
+      input[type="button"] {
+         background-color: green;
+         color: white;
+      }
+      input[type="button"]:disabled {
+         background-color: red;
+         color: white;
+      }
+      .footer {font-style:italic;}
+   </style>
+
+   <script type="text/javascript">
+
+      // Set global variables used across functions
+      // Must be declared and defined prior to onload event
+      var currentLoc = "Room1";
+      var hasVisitedRoom1 = true;
+      var hasVisitedRoom2 = false;
+      var hasVisitedRoom3 = false;
+      var hasVisitedRoom4 = false;
+      var hasVisitedRoom5 = false;
+      var hasVisitedRoom6 = false;
+      var totalScore = 0;
+
+      // Set focus to txtInput called from onload and updateDisplay
+      function focusOnTxtInput() {
+         document.getElementById("txtCommand").focus();
+      }
+      // Set buttons status called from on load and updateDisplay
+      function setBtnState(currentLoc) {
+         if (currentLoc === "Room1") {
+            document.getElementById("btnWest").setAttribute("disabled", true);
+            document.getElementById("btnNorth").removeAttribute("disabled");
+            document.getElementById("btnSouth").setAttribute("disabled", true);
+            document.getElementById("btnEast").setAttribute("disabled", true);
+         }  else {
+               if (currentLoc === "Room2") {
+                  document.getElementById("btnWest").removeAttribute("disabled");
+                  document.getElementById("btnNorth").removeAttribute("disabled");
+                  document.getElementById("btnSouth").removeAttribute("disabled");
+                  document.getElementById("btnEast").setAttribute("disabled", true);
+               }  else {
+                     if (currentLoc === "Room3") {
+                        document.getElementById("btnWest").setAttribute("disabled", true);
+                        document.getElementById("btnNorth").removeAttribute("disabled");
+                        document.getElementById("btnSouth").removeAttribute("disabled");
+                        document.getElementById("btnEast").setAttribute("disabled", true);
+                     }  else {
+                           if (currentLoc === "Room4") {
+                              document.getElementById("btnWest").setAttribute("disabled", true);
+                              document.getElementById("btnNorth").setAttribute("disabled", true);
+                              document.getElementById("btnSouth").setAttribute("disabled", true);
+                              document.getElementById("btnEast").setAttribute("disabled", true);
+                           }  else {
+                                 if (currentLoc === "Room5") {
+                                    document.getElementById("btnWest").setAttribute("disabled", true);
+                                    document.getElementById("btnNorth").setAttribute("disabled", true);
+                                    document.getElementById("btnSouth").setAttribute("disabled", true);
+                                    document.getElementById("btnEast").removeAttribute("disabled");
+                                 }
+                              }
+                        }
+                  }
+            }
+      }
+
+      // updateDisplay receives and concatenates variables, appends history, resets inputs and dirty placeholders, and restores focus to input txtCommand
+      function updateDisplay(userAction, breadCrumbs, message) {
+         // Build displays for History and Status textareas
+         var historyWindow = document.getElementById("taHistory");
+            historyWindow.value = message + "\n" + "[" + userAction + " > " + breadCrumbs + "]" + "\n\n" + taHistory.value;
+         var statusWindow = document.getElementById("taStatus");
+            statusWindow.value = "Score: " + totalScore + "\n" + "Current Location: " + currentLoc;
+         // txtCommand.value has either been evaluated and utilized, or not applied (and possibly dirty), so reset input to blank
+         txtCommand.value = "";
+         // Since we are here, some form of valid button or text command has been processed, so reset any dirty placeholders
+         txtCommand.placeholder="Click direction above -or- Enter text command here"
+         // Set focus to input txtCommand
+         focusOnTxtInput();
+         // Set button status based upon current location
+         setBtnState(currentLoc);
+      }
+
+      function escapeAbyss(userAction) {
+         var breadCrumbs = "function escapeAbyss";
+         var message = "The scent of the lotion overwhelms you. You fight to hold on to consciousness, but become dizzy and confused. It seems you are tumbling through space; through a blurred jumble of doors and passages.\n\nYour flight halts abruptly and you find yourself suspended and spinning slowly in a room with glowing walls and ceiling. There is no floor below, just a shaft leading downward and away out of sight.\n\nThere is a bright flash and you are released to fall painfully into the chute, tumbling and landing in a heap. Congratulations! You have successfully employed the portal - you escaped the pit, traversed Room 6 and the chute, and made it to the Annex.";
+         currentLoc = "Room5";
+         if (hasVisitedRoom6 === false) {
+            totalScore = totalScore + 5;
+         }
+         if (hasVisitedRoom5 === false) {
+            totalScore = totalScore + 5;
+         }
+         hasVisitedRoom6 = true;
+         hasVisitedRoom5 = true;
+         updateDisplay (userAction, breadCrumbs, message);
+      }
+      
+      function attemptGoWest(userAction) {
+         var breadCrumbs = "function attemptGoWest";
+         // Begin conditionals for function attemptGoWest
+         if (currentLoc === "Room1") {
+            var message = "Erm... sorry. No place to go in that direction.";
+         }  else {
+               if (currentLoc === "Room2") {
+                  var message = "You have entered Room5, the Annex.";
+                  currentLoc = "Room5";
+                  if (hasVisitedRoom5 === false) {
+                     totalScore = totalScore + 5;
+                  }
+                  hasVisitedRoom5 = true;
+               }  else {
+                     if (currentLoc === "Room3") {
+                        var message = "Erm... sorry. No place to go in that direction.";
+                     }  else {
+                           if (currentLoc === "Room4") {
+                              var message = "It rubs the lotion on its skin or else it gets the hose again.";
+                           }  else {
+                                 if (currentLoc === "Room5") {
+                                    var message = "Erm... sorry. No place to go in that direction.";
+                                 }
+                              }
+                        }
+                  }
+            }
+         updateDisplay (userAction, breadCrumbs, message);
+      }
+
+      function attemptGoNorth(userAction) {
+         var breadCrumbs = "function attemptGoNorth";
+         // Begin conditionals for function attemptGoNorth
+         if (currentLoc === "Room1") {
+            var message = "You have entered Room2.";
+            currentLoc = "Room2";
+            if (hasVisitedRoom2 === false) {
+               totalScore = totalScore + 5;
+            }
+            hasVisitedRoom2 = true;
+         }  else {
+               if (currentLoc === "Room2") {
+                  var message = "You have entered Room3.";
+                  currentLoc = "Room3";
+                  if (hasVisitedRoom3 === false) {
+                     totalScore = totalScore + 5;
+                  }
+                  hasVisitedRoom3 = true;
+               }  else {
+                     if (currentLoc === "Room3") {
+                        var message = "You have fallen a long distance down into Room4. Welcome to THE ABYSS! There is no way out :-O (Or... is there?)";
+                        currentLoc = "Room4";
+                        if (hasVisitedRoom4 === false) {
+                           totalScore = totalScore + 5;
+                        }
+                        hasVisitedRoom4 = true;
+                     }  else {
+                           if (currentLoc === "Room4") {
+                              var message = "It rubs the lotion on its skin or else it gets the hose again.";
+                           }  else {
+                                 if (currentLoc === "Room5") {
+                                    var message = "Erm... sorry. No place to go in that direction.";
+                                 }
+                              }
+                        }
+                  }
+            }
+         updateDisplay (userAction, breadCrumbs, message);
+      }
+
+      function attemptGoSouth(userAction) {
+         var breadCrumbs = "function attemptGoSouth";
+         // Begin conditionals for function attemptGoSouth
+         if (currentLoc === "Room1") {
+            var message = "Sorry, the door locked behind you when you stepped in. There is a keyhole, but you don't have any keys.";
+         }  else {
+               if (currentLoc === "Room2") {
+                  var message = "You have returned to Room1. This isn't getting you anywhere.";
+                  currentLoc = "Room1";
+               }  else {
+                     if (currentLoc === "Room3") {
+                        var message = "You have returned to Room2. Boring.";
+                        currentLoc = "Room2";
+                        // In basic sequential (walking) navigation, the totalScore update logic, and hasVisitedRoom# update are not necessary. However, let's leave this code in place, to accomodate implementation of navigation by teleportation, hyperspace, or wormhole.
+                        if (hasVisitedRoom2 === false) {
+                           totalScore = totalScore + 5;
+                        }
+                        hasVisitedRoom2 = true;
+                     }  else {
+                           if (currentLoc === "Room4") {
+                              var message = "It rubs the lotion on its skin or else it gets the hose again.";
+                           }  else {
+                                 if (currentLoc === "Room5") {
+                                    var message = "Erm... sorry. No place to go in that direction.";
+                                 }
+                              }
+                        }
+                  }
+            }
+         updateDisplay (userAction, breadCrumbs, message);
+      }
+
+      function attemptGoEast(userAction) {
+         var breadCrumbs = "function attemptGoEast";
+         // Begin conditionals for function attemptGoEast
+         if (currentLoc === "Room1") {
+            var message = "Erm... sorry. No place to go in that direction.";
+         }  else {
+               if (currentLoc === "Room2") {
+                  var message = "Erm... sorry. No place to go in that direction.";
+               }  else {
+                     if (currentLoc === "Room3") {
+                        var message = "Erm... sorry. No place to go in that direction.";
+                     }  else {
+                           if (currentLoc === "Room4") {
+                              var message = "It rubs the lotion on its skin or else it gets the hose again.";
+                           }  else {
+                                 if (currentLoc === "Room5") {
+                                    var message = "Back in Room2 again. Look at your life. Think about your choices.";
+                                    currentLoc = "Room2";
+                                    // In basic sequential (walking) navigation, the totalScore update logic, and hasVisitedRoom# update are not necessary. However, let's leave this code in place, to accomodate implementation of navigation by teleportation, hyperspace, or wormhole.
+                                    if (hasVisitedRoom2 === false) {
+                                       totalScore = totalScore + 5;
+                                    }
+                                    hasVisitedRoom2 = true;
+                                 }
+                              }
+                        }
+                  }
+            }
+         updateDisplay (userAction, breadCrumbs, message);
+      }
+
+      function processTxtCommand() {
+         var breadCrumbs = "function processTxtCommand";
+         // Check for empty user text submission
+         if (txtCommand.value === "") {
+            txtCommand.placeholder = "Yo. Yur shootin' blanks... ya'll gotta type sumptin'!";
+            focusOnTxtInput();
+         }  else {
+               var userAction = "txtCommand \"" + txtCommand.value + "\"";
+               // Convert string to lower case for analysis
+               var txtCommandLowcase = txtCommand.value.toLowerCase();
+               // Check user text input for constrained directional commands
+               // Otherwise explain valid commands
+               if (txtCommandLowcase === "w") {
+                  attemptGoWest(userAction)
+               }  else {
+                     if (txtCommandLowcase === "n") {
+                        attemptGoNorth(userAction);
+                     }  else {
+                           if (txtCommandLowcase === "s") {
+                              attemptGoSouth(userAction);
+                           }  else {
+                                 if (txtCommandLowcase === "e") {
+                                    attemptGoEast(userAction);
+                                 }  else {
+                                       if (currentLoc === "Room4") {
+                                          var magicPhrase = txtCommandLowcase.search("the lotion");
+                                          if (magicPhrase !== -1) {
+                                             escapeAbyss(userAction);
+                                          }  else {
+                                                var message = "Please enter \"W\", \"N\", \"S\", or \"E\"; then press Enter or click \'Go\"\n(You may use UPPER or lower case letters.)";
+                                                updateDisplay (userAction, breadCrumbs, message);
+                                             }
+                                       // This is obviously redundant, but I need to move on for now.
+                                       }  else {
+                                             var message = "Please enter \"W\", \"N\", \"S\", or \"E\"; then press Enter or click \'Go\"\n(You may use UPPER or lower case letters.)";
+                                             updateDisplay (userAction, breadCrumbs, message);
+                                          }
+                                    }
+                              }
+                        }
+                  }
+           }
+      }
+
+   </script>
+
+</head>
+
+<!-- Set focus to input txtCommand
+     Set directional buttons to initial valid status -->
+<body onload="focusOnTxtInput(); setBtnState(currentLoc);">
+
+   <h1>
+      Victoria's Secret
+   </h1>
+
+   <h2>
+      A Journey of Death and Lingerie
+   </h2>
+
+   <h3>
+      by Paul Laibach
+   </h3>
+
+   <textarea id="taStatus" name="taStatus" rows="2" cols="48" readonly></textarea>
+   <br>
+   <br>
+
+      <input type="button"
+             id="btnWest"
+             value="West"
+             onclick="attemptGoWest(btnWest.id);" />
+
+      <input type="button"
+             id="btnNorth"
+             value="North" 
+             onclick="attemptGoNorth(btnNorth.id);" />
+
+      <input type="button"
+             id="btnSouth"
+             value="South" 
+             onclick="attemptGoSouth(btnSouth.id);" />
+
+      <input type="button"
+             id="btnEast"
+             value="East" 
+             onclick="attemptGoEast(btnEast.id);" />
+   <br>
+   <br>
+
+      <input type="text"
+             id = "txtCommand"
+             name="txtCommand"
+             size="40"
+             placeholder="Click direction above -or- Enter text command here"
+             onkeypress="if (event.keyCode == 13) processTxtCommand();" />
+             
+      <input type="button"
+             id="btnTxtCommand"
+             name="btnTxtCommand"
+             value="Go" 
+             onclick="processTxtCommand();" />
+   <br>
+   <br>
+
+   <textarea id="taHistory" name="taHistory" rows="12" cols="96" readonly>You have just entered an unmarked door at the south end of a nondescript building. The door swings gently shut behind you and latches with a slight, yet somehow ominous "click."</textarea>
+   <br>
+   <br>
+
+   <!-- mailto: link to send you e-mail -->
+   <a href="mailto:marist@laibach.net">Yo. Email me!</a>
+   <br>
+   <br>
+
+   <p class="footer">
+      <a href="http://validator.w3.org/#validate_by_input">Validate as HTML5</a>
+      <br>
+      <a href="http://jigsaw.w3.org/css-validator/#validate_by_input">Validate CSS</a>
+   </p>
+
+   <p>
+      <a href="http://jigsaw.w3.org/css-validator/check/referer">
+         <img style="border:0;width:88px;height:31px"
+            src="http://jigsaw.w3.org/css-validator/images/vcss"
+            alt="Valid CSS!" />
+      </a>
+   </p>
+
+</body>
+
+</html>
