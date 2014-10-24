@@ -3,8 +3,8 @@
 
 <!-- Paul C. Laibach
    Introduction to Programming
-   Project 4 - Game v0.4
-   Due 2014.10.23
+   Project 4 - Game v0.6
+   Due 2014.11.13
 -->
 
 <!-- To DO
@@ -70,80 +70,77 @@
       var hasVisitedRoom6 = false;
       var totalScore = 0;
 
-      // Set focus to txtInput called from onload and updateDisplay
-      function focusOnTxtInput() {
-         document.getElementById("txtCommand").focus();
-      }
-      // Set buttons status called from on load and updateDisplay
-      function setBtnState(currentLoc) {
-         if (currentLoc === "Room1") {
-            document.getElementById("btnWest").disabled = true;
-            document.getElementById("btnNorth").disabled = false;
-            document.getElementById("btnSouth").disabled = true;
-            document.getElementById("btnEast").disabled = true;
+      //
+      // BEGINNING OF TEXT COMMAND PROCESSING
+      //
+
+      // Validate text command input.
+      // Begin parsing / processing valid strings, otherwise do nothing except set placeholder message.
+      function verifyTxtPresent() {
+         if (txtCommand.value === "") {
+            txtCommand.placeholder = "Yo. Yur shootin' blanks... ya'll gotta type sumptin'!";
+            focusOnTxtInput();
          }  else {
-               if (currentLoc === "Room2") {
-                  document.getElementById("btnWest").disabled = false;
-                  document.getElementById("btnNorth").disabled = false;
-                  document.getElementById("btnSouth").disabled = false;
-                  document.getElementById("btnEast").disabled = true;
-               }  else {
-                     if (currentLoc === "Room3") {
-                        document.getElementById("btnWest").disabled = true;
-                        document.getElementById("btnNorth").disabled = false;
-                        document.getElementById("btnSouth").disabled = false;
-                        document.getElementById("btnEast").disabled = true;
-                     }  else {
-                           if (currentLoc === "Room4") {
-                              document.getElementById("btnWest").disabled = true;
-                              document.getElementById("btnNorth").disabled = true;
-                              document.getElementById("btnSouth").disabled = true;
-                              document.getElementById("btnEast").disabled = true;
-                           }  else {
-                                 if (currentLoc === "Room5") {
-                                    document.getElementById("btnWest").disabled = true;
-                                    document.getElementById("btnNorth").disabled = true;
-                                    document.getElementById("btnSouth").disabled = true;
-                                    document.getElementById("btnEast").disabled = false;
-                                 }
-                              }
-                        }
-                  }
+               simpleTxtCommand();
             }
       }
 
-      // updateDisplay receives and concatenates variables, appends history, resets inputs and dirty placeholders, and restores focus to input txtCommand
-      function updateDisplay(userAction, breadCrumbs, message) {
-         // Build displays for History and Status textareas
-         var historyWindow = document.getElementById("taHistory");
-            historyWindow.value = message + "\n" + "[" + userAction + " > " + breadCrumbs + "]" + "\n\n" + taHistory.value;
-         var statusWindow = document.getElementById("taStatus");
-            statusWindow.value = "Score: " + totalScore + "\n" + "Current Location: " + currentLoc;
-         // txtCommand.value has either been evaluated and utilized, or not applied (and possibly dirty), so reset input to blank
-         txtCommand.value = "";
-         // Since we are here, some form of valid button or text command has been processed, so reset any dirty placeholders
-         txtCommand.placeholder="Click direction above -or- Enter text command here"
-         // Set focus to input txtCommand
-         focusOnTxtInput();
-         // Set button status based upon current location
-         setBtnState(currentLoc);
+      // Check txtCommand for single character "w", "n", "s", or "e".
+      // Call directional functions (same as corresponding button clicks) and pass user action variable.
+      function simpleTxtCommand() {
+         var breadCrumbs = "function simpleTxtCommand";
+         var userAction = "txtCommand \"" + txtCommand.value + "\"";
+         // Convert string to lower case for analysis
+         var txtCommandLowcase = txtCommand.value.toLowerCase();
+         switch(txtCommandLowcase) {
+            case "w": attemptGoWest(userAction);
+               break;
+            case "n": attemptGoNorth(userAction);
+               break;
+            case "s": attemptGoSouth(userAction);
+               break;
+            case "e": attemptGoEast(userAction);
+               break;
+            default: specialTxtCommand();
+         }
       }
 
-      function escapeAbyss(userAction) {
-         var breadCrumbs = "function escapeAbyss";
-         var message = "The scent of the lotion overwhelms you. You fight to hold on to consciousness, but become dizzy and confused. It seems you are tumbling through space; through a blurred jumble of doors and passages.\n\nYour flight halts abruptly and you find yourself suspended and spinning slowly in a room with glowing walls and ceiling. There is no floor below, just a shaft leading downward and away out of sight.\n\nThere is a bright flash and you are released to fall painfully into the chute, tumbling and landing in a heap. Congratulations! You have successfully employed the portal - you escaped the pit, traversed Room 6 and the chute, and made it to the Annex.";
-         currentLoc = "Room5";
-         if (hasVisitedRoom6 === false) {
-            totalScore = totalScore + 5;
-         }
-         if (hasVisitedRoom5 === false) {
-            totalScore = totalScore + 5;
-         }
-         hasVisitedRoom6 = true;
-         hasVisitedRoom5 = true;
+      // Check txtCommand for substrings "rub" and "lotion"
+      // Pass control to escape from the Abyss function.
+      function specialTxtCommand() {
+         if (currentLoc === "Room4") {
+            var breadCrumbs = "function specialTxtCommand";
+            var userAction = "txtCommand \"" + txtCommand.value + "\"";
+            // Convert string to lower case for analysis
+            // var txtCommandLowcase = txtCommand.value.toLowerCase();
+            //   if ((txtCommandLowcase.search("rub") !== -1) && (txtCommandLowcase.search("lotion") !== -1)){
+               if ((txtCommand.value.search(/rub/i) !== -1) && (txtCommand.value.search(/lotion/i) !== -1)){
+                  escapeAbyss(userAction);
+               }  else {
+                     unknownTxtCommand();
+                  }
+         }  else {
+               unknownTxtCommand();
+            }
+      }
+
+      // Provide help when text commands are unrecognized by any other function.
+      // Bypass navigation processing and proceed to update displays.
+      function unknownTxtCommand() {
+         var breadCrumbs = "function unknownTxtCommand";
+         var userAction = "txtCommand \"" + txtCommand.value + "\"";
+         var message = "Please enter \"W\", \"N\", \"S\", or \"E\"; then press Enter or click \'Go\"\n(You may use UPPER or lower case letters.)";
          updateDisplay (userAction, breadCrumbs, message);
       }
-      
+
+      //
+      // END OF TEXT COMMAND PROCESSING
+      //
+
+      //
+      // BEGINNING OF SEQUENTIAL NAVIGATION PROCESSING
+      //
+
       function attemptGoWest(userAction) {
          var breadCrumbs = "function attemptGoWest";
          // Begin conditionals for function attemptGoWest
@@ -277,69 +274,100 @@
          updateDisplay (userAction, breadCrumbs, message);
       }
 
-      // Check for empty text command submission.
-      function verifyTxtPresent() {
-         if (txtCommand.value === "") {
-            txtCommand.placeholder = "Yo. Yur shootin' blanks... ya'll gotta type sumptin'!";
-            focusOnTxtInput();
-         }  else {
-               simpleTxtCommand();
-            }
-      }
+      //
+      // END OF SEQUENTIAL NAVIGATION PROCESSING
+      //
 
-      // Check for single character text commands.
-      function simpleTxtCommand() {
-         var breadCrumbs = "function simpleTxtCommand";
-         var userAction = "txtCommand \"" + txtCommand.value + "\"";
-         // Convert string to lower case for analysis
-         var txtCommandLowcase = txtCommand.value.toLowerCase();
-         switch(txtCommandLowcase) {
-            case "w": attemptGoWest(userAction);
-               break;
-            case "n": attemptGoNorth(userAction);
-               break;
-            case "s": attemptGoSouth(userAction);
-               break;
-            case "e": attemptGoEast(userAction);
-               break;
-            default: specialTxtCommand();
+      //
+      // BEGINNING OF ARBITRARY NAVIGATION PROCESSING
+      //
+
+      function escapeAbyss(userAction) {
+         var breadCrumbs = "function escapeAbyss";
+         var message = "The scent of the lotion overwhelms you. You fight to hold on to consciousness, but become dizzy and confused. It seems you are tumbling through space; through a blurred jumble of doors and passages.\n\nYour flight halts abruptly and you find yourself suspended and spinning slowly in a room with glowing walls and ceiling. There is no floor below, just a shaft leading downward and away out of sight.\n\nThere is a bright flash and you are released to fall painfully into the chute, tumbling and landing in a heap. Congratulations! You have successfully employed the portal - you escaped the pit, traversed Room 6 and the chute, and made it to the Annex.";
+         currentLoc = "Room5";
+         if (hasVisitedRoom6 === false) {
+            totalScore = totalScore + 5;
          }
-      }
-
-      function specialTxtCommand() {
-         // Escape from the Abyss
-         // Check for presence of both "rub" and "lotion".
-         if (currentLoc === "Room4") {
-            var breadCrumbs = "function specialTxtCommand";
-            var userAction = "txtCommand \"" + txtCommand.value + "\"";
-            // Convert string to lower case for analysis
-            var txtCommandLowcase = txtCommand.value.toLowerCase();
-            var keywordCount = 0;
-            var keywordSearch = txtCommandLowcase.search("rub");
-            if (keywordSearch !== -1) {
-               keywordCount = keywordCount + 1;
-            }
-            var keywordSearch = txtCommandLowcase.search("lotion");
-            if (keywordSearch !== -1) {
-               keywordCount = keywordCount + 1;
-            }
-            if (keywordCount > 1) {
-               escapeAbyss(userAction);
-            }  else {
-                  unknownTxtCommand();
-               }
-         }  else {
-               unknownTxtCommand();
-            }
-      }
-
-      // Help when text commands are unrecognized by any other function
-      function unknownTxtCommand() {
-         var breadCrumbs = "function unknownTxtCommand";
-         var userAction = "txtCommand \"" + txtCommand.value + "\"";
-         var message = "Please enter \"W\", \"N\", \"S\", or \"E\"; then press Enter or click \'Go\"\n(You may use UPPER or lower case letters.)";
+         if (hasVisitedRoom5 === false) {
+            totalScore = totalScore + 5;
+         }
+         hasVisitedRoom6 = true;
+         hasVisitedRoom5 = true;
          updateDisplay (userAction, breadCrumbs, message);
       }
+
+      //
+      // END OF ARBITRARY NAVIGATION PROCESSING
+      //
+
+      //
+      // BEGINNING OF DISPLAY AND ELEMENT UPDATES
+      //
+
+      // updateDisplay receives and concatenates variables, appends history, resets inputs and dirty placeholders, and restores focus to input txtCommand
+      function updateDisplay(userAction, breadCrumbs, message) {
+         // Build displays for History and Status textareas
+         var historyWindow = document.getElementById("taHistory");
+            historyWindow.value = message + "\n" + "[" + userAction + " > " + breadCrumbs + "]" + "\n\n" + taHistory.value;
+         var statusWindow = document.getElementById("taStatus");
+            statusWindow.value = "Score: " + totalScore + "\n" + "Current Location: " + currentLoc;
+         // txtCommand.value has either been evaluated and utilized, or not applied (and possibly dirty), so reset input to blank
+         txtCommand.value = "";
+         // Since we are here, some form of valid button or text command has been processed, so reset any dirty placeholders
+         txtCommand.placeholder="Click direction above -or- Enter text command here"
+         // Set focus to input txtCommand
+         focusOnTxtInput();
+         // Set button status based upon current location
+         setBtnState(currentLoc);
+      }
+
+      // Set focus to txtInput called from onload and updateDisplay
+      function focusOnTxtInput() {
+         document.getElementById("txtCommand").focus();
+      }
+
+      // Set buttons status called from onload and updateDisplay
+      function setBtnState(currentLoc) {
+         if (currentLoc === "Room1") {
+            document.getElementById("btnWest").disabled = true;
+            document.getElementById("btnNorth").disabled = false;
+            document.getElementById("btnSouth").disabled = true;
+            document.getElementById("btnEast").disabled = true;
+         }  else {
+               if (currentLoc === "Room2") {
+                  document.getElementById("btnWest").disabled = false;
+                  document.getElementById("btnNorth").disabled = false;
+                  document.getElementById("btnSouth").disabled = false;
+                  document.getElementById("btnEast").disabled = true;
+               }  else {
+                     if (currentLoc === "Room3") {
+                        document.getElementById("btnWest").disabled = true;
+                        document.getElementById("btnNorth").disabled = false;
+                        document.getElementById("btnSouth").disabled = false;
+                        document.getElementById("btnEast").disabled = true;
+                     }  else {
+                           if (currentLoc === "Room4") {
+                              document.getElementById("btnWest").disabled = true;
+                              document.getElementById("btnNorth").disabled = true;
+                              document.getElementById("btnSouth").disabled = true;
+                              document.getElementById("btnEast").disabled = true;
+                           }  else {
+                                 if (currentLoc === "Room5") {
+                                    document.getElementById("btnWest").disabled = true;
+                                    document.getElementById("btnNorth").disabled = true;
+                                    document.getElementById("btnSouth").disabled = true;
+                                    document.getElementById("btnEast").disabled = false;
+                                 }
+                              }
+                        }
+                  }
+            }
+      }
+
+      //
+      // END OF DISPLAY AND ELEMENT UPDATES
+      //
 
    </script>
 
