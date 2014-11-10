@@ -14,7 +14,7 @@
    <head>
 
       <title>
-         toString and parseInt Demonstration
+         parseInt and toString Demonstration
       </title>
 
       <style type="text/css">
@@ -22,8 +22,10 @@
          h2 {font-family:tahoma,verdana,sans-serif;}
          h3 {font-family:'lucida console',monaco,monospace;}
          h4 {font-family:'lucida console',monaco,monospace; font-size:110%;}
-         textarea {resize:none; outline:none; text-align:center;}
+         h5 {font-family:tahoma,verdana,sans-serif; color:blue;}
+         td {text-align:right;}
          input {text-align:center;}
+         textarea {resize:none; outline:none; text-align:center;}
       </style>
 
       <script type="text/javascript">
@@ -37,13 +39,12 @@
          //
 
             // There are separate functions for each type of user input.
-            // Parse user input to decimal.
-            // If parsed value is NaN, set that input text field background to Red and leave everything else alone.
-            // If parsed value is successfully evaluated, calculate results in all bases as local variables.
-            // Do a complete conversion even against same type input to show parsed input value as used.
+            // Fist step is to parse any user input to decimal.
+            // If parsed value is NaN, set that input text field background to Red and leave/set everything else NUll.
+            // If parsed value is successfully evaluated, calculate results for each base as a local variable.
+            // Parse for same base as well to display parsed input value actually used and to check for coerced value.
             // If parsed value does not exactly match input value, set that input text field background to Yellow as a warning.
             // Pass results to function updateResults for display.
-
             function convertFromDecimal() {
                var decimalResult = parseInt(document.getElementById("userInputDecimal").value);
                if (isNaN(decimalResult)) {
@@ -93,49 +94,39 @@
          // This IS where we display the results of converted user text input.
          //
 
+            // Receive results from convertFrom% functions and update document display elements.
             function updateResults(decimalString,binaryString,hexString) {
                document.getElementById("taDisplayDecimal").value = decimalString;
                document.getElementById("taDisplayBinary").value = binaryString;
                document.getElementById("taDisplayHex").value = hexString;
             }
 
-            // function unableToParseInput() {
-            //    document.getElementById("taDisplayDecimal").value = "W.";
-            //    document.getElementById("taDisplayBinary").value = "T.";
-            //    document.getElementById("taDisplayHex").value = "F.";
-            // }
-
          //
          // These functions handle clearing of input fields, resetting results, and setting placeholder colors.
          //
 
-            // Upon clicking a particular user input field, clear any dirty text input from the other input fields.
-
+            // Upon clicking particular user text input field, clear any residual input from the other text input fields.
             function clearAllInputsExceptDecimal() {
                document.getElementById("userInputBinary").value = null;
                document.getElementById("userInputHex").value = null;
             }
-
             function clearAllInputsExceptBinary() {
                document.getElementById("userInputDecimal").value = null;
                document.getElementById("userInputHex").value = null;
             }
-
             function clearAllInputsExceptHex() {
                document.getElementById("userInputDecimal").value = null;
                document.getElementById("userInputBinary").value = null;
             }
 
-            // Clear all prior results.
-            // Invoked by onClick events and onInput events from any input text field.
+            // Upon any user input text field onClick and onInput events, clear all prior results.
             function clearAllPriorResults() {
                document.getElementById("taDisplayDecimal").value = null;
                document.getElementById("taDisplayBinary").value = null;
                document.getElementById("taDisplayHex").value = null;
             }
 
-            // Reset all input placeholder background colors to default.
-            // Invoked by onClick events and onInput events from any input text field.
+            // Upon any user input text field onClick and onInput events, reset all input placeholder background colors to default.
             function resetAllPlaceholderBackgounds() {
                document.getElementById("userInputDecimal").style.backgroundColor = "";
                document.getElementById("userInputBinary").style.backgroundColor = "";
@@ -149,7 +140,7 @@
    <body>
 
       <h1>
-         Fun! with parseInt and toString
+         All your base...
       </h1>
 
       <h2>
@@ -174,7 +165,7 @@
                          onkeypress="if (event.keyCode == 13) convertFromDecimal();" />
                </td>
                <td>
-                  Decimal:
+                  &nbsp;Decimal:&nbsp;
                </td>
                <td>
                   <textarea id="taDisplayDecimal" rows="1" cols="16" readonly></textarea>
@@ -191,7 +182,7 @@
                          onkeypress="if (event.keyCode == 13) convertFromBinary();" />
                </td>
                <td>
-                  Binary: 
+                  &nbsp;Binary:&nbsp;
                </td>
                <td>
                   <textarea id="taDisplayBinary" rows="1" cols="16" readonly></textarea>
@@ -208,7 +199,7 @@
                          onkeypress="if (event.keyCode == 13) convertFromHex();" />
                </td>
                <td>
-                  Hexadecimal:
+                  &nbsp;Hexadecimal:&nbsp;
                </td>
                <td>
                   <textarea id="taDisplayHex" rows="1" cols="16" readonly></textarea>
@@ -221,4 +212,7 @@
          ...then press enter to process results.
       </h3>
 
+      <h5>
+         Results processed using Javascript native parseInt and toString.
+      </h5>
 </html>
