@@ -7,9 +7,7 @@
 -->
 
 <!-- To Do
-   Clear results as soon as any input field is dirty.
    Fix 'null' display in IE
-   Use table style formatting for input and results.
    Check into posible text to integer conversion.
    Check into regex http://stackoverflow.com/questions/8923119/javascript-isnan-function
 -->
@@ -34,92 +32,116 @@
             // http://www.w3schools.com/jsref/jsref_tostring_number.asp
             // http://www.w3schools.com/jsref/jsref_parseint.asp
 
-         // Do a complete conversion even against same type input to show parsed input value as used.
-         function convertFromDecimal() {
-            var decimalResult = parseInt(document.getElementById("userInputDecimal").value);
-            if (isNaN(decimalResult)) {
-//               unableToParseInput();
-               document.getElementById("userInputDecimal").style.backgroundColor = "red";
-            }  else {
-                  var binaryResult = decimalResult.toString(2);
-                  var hexResult = decimalResult.toString(16);
-                  var hexResultUpperCase = hexResult.toUpperCase();
-                  if (document.getElementById("userInputDecimal").value != decimalResult) {
-                     document.getElementById("userInputDecimal").style.backgroundColor = "yellow";
+         //
+         // This is where we do validation and calculation.
+         //
+
+            // There are separate functions for each type of user input.
+            // Parse user input to decimal.
+            // If parsed value is NaN, set that input text field background to Red and leave everything else alone.
+            // If parsed value is successfully evaluated, calculate results in all bases as local variables.
+            // Do a complete conversion even against same type input to show parsed input value as used.
+            // If parsed value does not exactly match input value, set that input text field background to Yellow as a warning.
+            // Pass results to function updateResults for display.
+
+            function convertFromDecimal() {
+               var decimalResult = parseInt(document.getElementById("userInputDecimal").value);
+               if (isNaN(decimalResult)) {
+                  document.getElementById("userInputDecimal").style.backgroundColor = "red";
+               }  else {
+                     var binaryResult = decimalResult.toString(2);
+                     var hexResult = decimalResult.toString(16);
+                     var hexResultUpperCase = hexResult.toUpperCase();
+                     if (document.getElementById("userInputDecimal").value != decimalResult) {
+                        document.getElementById("userInputDecimal").style.backgroundColor = "yellow";
+                     }
+                     updateResults(decimalResult,binaryResult,hexResultUpperCase);
                   }
-                  updateResults(decimalResult,binaryResult,hexResultUpperCase);
-               }
-         }
-         function convertFromBinary() {
-            var userInputBinary = parseInt(document.getElementById("userInputBinary").value);
-            var decimalResult = parseInt(userInputBinary,2);
-            if (isNaN(decimalResult)) {
-//               unableToParseInput();
-               document.getElementById("userInputBinary").style.backgroundColor = "red";
-            }  else {
-                  var binaryResult = decimalResult.toString(2);
-                  var hexResult = decimalResult.toString(16);
-                  var hexResultUpperCase = hexResult.toUpperCase();
-                  if (document.getElementById("userInputBinary").value != binaryResult) {
-                     document.getElementById("userInputBinary").style.backgroundColor = "yellow";
+            }
+            function convertFromBinary() {
+               var userInputBinary = parseInt(document.getElementById("userInputBinary").value);
+               var decimalResult = parseInt(userInputBinary,2);
+               if (isNaN(decimalResult)) {
+                  document.getElementById("userInputBinary").style.backgroundColor = "red";
+               }  else {
+                     var binaryResult = decimalResult.toString(2);
+                     var hexResult = decimalResult.toString(16);
+                     var hexResultUpperCase = hexResult.toUpperCase();
+                     if (document.getElementById("userInputBinary").value != binaryResult) {
+                        document.getElementById("userInputBinary").style.backgroundColor = "yellow";
+                     }
+                     updateResults(decimalResult,binaryResult,hexResultUpperCase);
                   }
-                  updateResults(decimalResult,binaryResult,hexResultUpperCase);
-               }
-         }
-         function convertFromHex() {
-            var userInputHex = document.getElementById("userInputHex").value;
-            var decimalResult = parseInt(userInputHex,16);
-            if (isNaN(decimalResult)) {
-//               unableToParseInput();
-               document.getElementById("userInputHex").style.backgroundColor = "red";
-            }  else {
-                  var binaryResult = decimalResult.toString(2);
-                  var hexResult = decimalResult.toString(16);
-                  var hexResultUpperCase = hexResult.toUpperCase();
-                  if (document.getElementById("userInputHex").value != hexResult) {
-                     document.getElementById("userInputHex").style.backgroundColor = "yellow";
+            }
+            function convertFromHex() {
+               var userInputHex = document.getElementById("userInputHex").value;
+               var decimalResult = parseInt(userInputHex,16);
+               if (isNaN(decimalResult)) {
+                  document.getElementById("userInputHex").style.backgroundColor = "red";
+               }  else {
+                     var binaryResult = decimalResult.toString(2);
+                     var hexResult = decimalResult.toString(16);
+                     var hexResultUpperCase = hexResult.toUpperCase();
+                     if (document.getElementById("userInputHex").value != hexResult) {
+                        document.getElementById("userInputHex").style.backgroundColor = "yellow";
+                     }
+                     updateResults(decimalResult,binaryResult,hexResultUpperCase);
                   }
-                  updateResults(decimalResult,binaryResult,hexResultUpperCase);
-               }
-         }
+            }
 
-//         function unableToParseInput() {
-//            document.getElementById("taDisplayDecimal").value = "W.";
-//            document.getElementById("taDisplayBinary").value = "T.";
-//            document.getElementById("taDisplayHex").value = "F.";
-//         }
+         //
+         // This IS where we display the results of converted user text input.
+         //
 
-         // Show results of converted user input
-         function updateResults(decimalString,binaryString,hexString) {
-            document.getElementById("taDisplayDecimal").value = decimalString;
-            document.getElementById("taDisplayBinary").value = binaryString;
-            document.getElementById("taDisplayHex").value = hexString;
-         }
+            function updateResults(decimalString,binaryString,hexString) {
+               document.getElementById("taDisplayDecimal").value = decimalString;
+               document.getElementById("taDisplayBinary").value = binaryString;
+               document.getElementById("taDisplayHex").value = hexString;
+            }
 
-         // Upon clicking any user input field, clear any dirty text input from other input fields.
-         function clearAllInputsExceptDecimal() {
-            document.getElementById("userInputBinary").value = null;
-            document.getElementById("userInputHex").value = null;
-            clearAllResults();
-         }
-         function clearAllInputsExceptBinary() {
-            document.getElementById("userInputDecimal").value = null;
-            document.getElementById("userInputHex").value = null;
-            clearAllResults();
-         }
-         function clearAllInputsExceptHex() {
-            document.getElementById("userInputDecimal").value = null;
-            document.getElementById("userInputBinary").value = null;
-            clearAllResults();
-         }
+            // function unableToParseInput() {
+            //    document.getElementById("taDisplayDecimal").value = "W.";
+            //    document.getElementById("taDisplayBinary").value = "T.";
+            //    document.getElementById("taDisplayHex").value = "F.";
+            // }
 
-         // Clear all prior results when any input field is clicked
-         function clearAllResults() {
-            document.getElementById("taDisplayDecimal").value = null;
-            document.getElementById("taDisplayBinary").value = null;
-            document.getElementById("taDisplayHex").value = null;
-         }
-         
+         //
+         // These functions handle clearing of input fields, resetting results, and setting placeholder colors.
+         //
+
+            // Upon clicking a particular user input field, clear any dirty text input from the other input fields.
+
+            function clearAllInputsExceptDecimal() {
+               document.getElementById("userInputBinary").value = null;
+               document.getElementById("userInputHex").value = null;
+            }
+
+            function clearAllInputsExceptBinary() {
+               document.getElementById("userInputDecimal").value = null;
+               document.getElementById("userInputHex").value = null;
+            }
+
+            function clearAllInputsExceptHex() {
+               document.getElementById("userInputDecimal").value = null;
+               document.getElementById("userInputBinary").value = null;
+            }
+
+            // Clear all prior results.
+            // Invoked by onClick events and onInput events from any input text field.
+            function clearAllPriorResults() {
+               document.getElementById("taDisplayDecimal").value = null;
+               document.getElementById("taDisplayBinary").value = null;
+               document.getElementById("taDisplayHex").value = null;
+            }
+
+            // Reset all input placeholder background colors to default.
+            // Invoked by onClick events and onInput events from any input text field.
+            function resetAllPlaceholderBackgounds() {
+               document.getElementById("userInputDecimal").style.backgroundColor = "";
+               document.getElementById("userInputBinary").style.backgroundColor = "";
+               document.getElementById("userInputHex").style.backgroundColor = "";
+            }
+
       </script>
 
    </head>
@@ -140,37 +162,59 @@
       </h3>
 
       <h4>
-         <br>
-         <input type="text"
-                id = "userInputDecimal"
-                size="16"
-                placeholder="decimal"
-                onClick="clearAllInputsExceptDecimal();"
-                onkeypress="if (event.keyCode == 13) convertFromDecimal();" />
-         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Decimal: 
-         <textarea id="taDisplayDecimal" rows="1" cols="16" readonly></textarea>
-         <br>
-         <br>
-         <input type="text"
-                id = "userInputBinary"
-                size="16"
-                placeholder="binary"
-                onClick="clearAllInputsExceptBinary();"
-                onkeypress="if (event.keyCode == 13) convertFromBinary();" />
-         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Binary: 
-         <textarea id="taDisplayBinary" rows="1" cols="16" readonly></textarea>
-         <br>
-         <br>
-         <input type="text"
-                id = "userInputHex"
-                size="16"
-                placeholder="hexadecimal"
-                onClick="clearAllInputsExceptHex();"
-                onkeypress="if (event.keyCode == 13) convertFromHex();" />
-         &nbsp;&nbsp;Hexadecimal: 
-         <textarea id="taDisplayHex" rows="1" cols="16" readonly></textarea>
-         <br>
-         <br>
+         <table>
+            <tr>
+               <td>
+                  <input type="text"
+                         id = "userInputDecimal"
+                         size="16"
+                         placeholder="decimal"
+                         onClick="clearAllPriorResults();resetAllPlaceholderBackgounds();clearAllInputsExceptDecimal();"
+                         onInput="clearAllPriorResults();resetAllPlaceholderBackgounds();"
+                         onkeypress="if (event.keyCode == 13) convertFromDecimal();" />
+               </td>
+               <td>
+                  Decimal:
+               </td>
+               <td>
+                  <textarea id="taDisplayDecimal" rows="1" cols="16" readonly></textarea>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <input type="text"
+                         id = "userInputBinary"
+                         size="16"
+                         placeholder="binary"
+                         onClick="clearAllPriorResults();resetAllPlaceholderBackgounds();clearAllInputsExceptBinary();"
+                         onInput="clearAllPriorResults();resetAllPlaceholderBackgounds();"
+                         onkeypress="if (event.keyCode == 13) convertFromBinary();" />
+               </td>
+               <td>
+                  Binary: 
+               </td>
+               <td>
+                  <textarea id="taDisplayBinary" rows="1" cols="16" readonly></textarea>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <input type="text"
+                         id = "userInputHex"
+                         size="16"
+                         placeholder="hexadecimal"
+                         onClick="clearAllPriorResults();resetAllPlaceholderBackgounds();clearAllInputsExceptHex();"
+                         onInput="clearAllPriorResults();resetAllPlaceholderBackgounds();"
+                         onkeypress="if (event.keyCode == 13) convertFromHex();" />
+               </td>
+               <td>
+                  Hexadecimal:
+               </td>
+               <td>
+                  <textarea id="taDisplayHex" rows="1" cols="16" readonly></textarea>
+               </td>
+            </tr>
+         </table>
       </h4>
 
       <h3>
