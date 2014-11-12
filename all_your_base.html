@@ -7,13 +7,16 @@
 -->
 
 <!-- To Do
-   Fix 'null' display in IE
    Binary input fails at 22 places [1111111111111111111111]
+   Hex input fails at 14 places [FFFFFFFFFFFFFF]
+   Textareas are double height in Firefox and indicate 'Null' in IE.
    Check into posible text to integer conversion.
    Check into regex http://stackoverflow.com/questions/8923119/javascript-isnan-function
 -->
-   <head>
 
+   <head>
+      <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+      <meta name="author" content="Paul C. Laibach" />
       <title>
          parseInt and toString Demonstration
       </title>
@@ -24,7 +27,8 @@
          h3 {font-family:'lucida console',monaco,monospace;}
          h4 {font-family:'lucida console',monaco,monospace; font-size:110%;}
          h5 {font-family:tahoma,verdana,sans-serif; color:blue;}
-         td {text-align:right;}
+         h6 {font-family:tahoma,verdana,sans-serif; color:blue;}
+         td {font-family:'lucida console',monaco,monospace; font-size:110%; text-align:right;}
          input {text-align:center;}
          textarea {resize:none; outline:none; text-align:center;}
       </style>
@@ -84,7 +88,8 @@
                      var binaryResult = decimalResult.toString(2);
                      var hexResult = decimalResult.toString(16);
                      var hexResultUpperCase = hexResult.toUpperCase();
-                     if (document.getElementById("userInputHex").value != hexResult) {
+                     // There is a slight variation with hexadecimal to disregard case when matching parsed value to input value.
+                     if (document.getElementById("userInputHex").value.toUpperCase() != hexResultUpperCase) {
                         document.getElementById("userInputHex").style.backgroundColor = "yellow";
                      }
                      updateResults(decimalResult,binaryResult,hexResultUpperCase);
@@ -140,12 +145,10 @@
 
    <body>
 
-      <h1>
-         All your base...
-      </h1>
+      <h1>All your base...</h1>
 
       <h2>
-         <span style="font-family:'brush script mt',cursive; font-size: 175%";>By </span>plaibach
+         <span style="font-family:'brush script mt',cursive; font-size:175%;">By </span>plaibach
       </h2>
 
       <h3>
@@ -153,67 +156,66 @@
          value for conversion...
       </h3>
 
-      <h4>
-         <table>
-            <tr>
-               <td>
-                  <input type="text"
-                         id = "userInputDecimal"
-                         size="16"
-                         placeholder="decimal"
-                         onClick="clearAllPriorResults();resetAllPlaceholderBackgounds();clearAllInputsExceptDecimal();"
-                         onInput="clearAllPriorResults();resetAllPlaceholderBackgounds();"
-                         onkeypress="if (event.keyCode == 13) convertFromDecimal();" />
-               </td>
-               <td>
-                  &nbsp;Decimal:&nbsp;
-               </td>
-               <td>
-                  <textarea id="taDisplayDecimal" rows="1" cols="16" readonly></textarea>
-               </td>
-            </tr>
-            <tr>
-               <td>
-                  <input type="text"
-                         id = "userInputBinary"
-                         size="16"
-                         placeholder="binary"
-                         onClick="clearAllPriorResults();resetAllPlaceholderBackgounds();clearAllInputsExceptBinary();"
-                         onInput="clearAllPriorResults();resetAllPlaceholderBackgounds();"
-                         onkeypress="if (event.keyCode == 13) convertFromBinary();" />
-               </td>
-               <td>
-                  &nbsp;Binary:&nbsp;
-               </td>
-               <td>
-                  <textarea id="taDisplayBinary" rows="1" cols="16" readonly></textarea>
-               </td>
-            </tr>
-            <tr>
-               <td>
-                  <input type="text"
-                         id = "userInputHex"
-                         size="16"
-                         placeholder="hexadecimal"
-                         onClick="clearAllPriorResults();resetAllPlaceholderBackgounds();clearAllInputsExceptHex();"
-                         onInput="clearAllPriorResults();resetAllPlaceholderBackgounds();"
-                         onkeypress="if (event.keyCode == 13) convertFromHex();" />
-               </td>
-               <td>
-                  &nbsp;Hexadecimal:&nbsp;
-               </td>
-               <td>
-                  <textarea id="taDisplayHex" rows="1" cols="16" readonly></textarea>
-               </td>
-            </tr>
-         </table>
-      </h4>
+      <table>
+         <tr>
+            <td>
+               <input type="text"
+                      id = "userInputDecimal"
+                      size="16"
+                      placeholder="decimal"
+                      onClick="clearAllPriorResults();resetAllPlaceholderBackgounds();clearAllInputsExceptDecimal();"
+                      onInput="clearAllPriorResults();resetAllPlaceholderBackgounds();"
+                      onkeypress="if (event.keyCode == 13) convertFromDecimal();" />
+            </td>
+            <td>
+               &nbsp;Decimal:&nbsp;
+            </td>
+            <td>
+               <textarea id="taDisplayDecimal" rows="1" cols="16" readonly></textarea>
+            </td>
+         </tr>
+         <tr>
+            <td>
+               <input type="text"
+                      id = "userInputBinary"
+                      size="16"
+                      placeholder="binary"
+                      onClick="clearAllPriorResults();resetAllPlaceholderBackgounds();clearAllInputsExceptBinary();"
+                      onInput="clearAllPriorResults();resetAllPlaceholderBackgounds();"
+                      onkeypress="if (event.keyCode == 13) convertFromBinary();" />
+            </td>
+            <td>
+               &nbsp;Binary:&nbsp;
+            </td>
+            <td>
+               <textarea id="taDisplayBinary" rows="1" cols="16" readonly></textarea>
+            </td>
+         </tr>
+         <tr>
+            <td>
+               <input type="text"
+                      id = "userInputHex"
+                      size="16"
+                      placeholder="hexadecimal"
+                      onClick="clearAllPriorResults();resetAllPlaceholderBackgounds();clearAllInputsExceptHex();"
+                      onInput="clearAllPriorResults();resetAllPlaceholderBackgounds();"
+                      onkeypress="if (event.keyCode == 13) convertFromHex();" />
+            </td>
+            <td>
+               &nbsp;Hexadecimal:&nbsp;
+            </td>
+            <td>
+               <textarea id="taDisplayHex" rows="1" cols="16" readonly></textarea>
+            </td>
+         </tr>
+      </table>
 
-      <h3>
-         ...then press enter to process results.
-      </h3>
+      <h3>...then press enter to process results.</h3>
 
-      <h5>
-         Results processed using Javascript native parseInt and toString.
-      </h5>
+      <h5>Results processed using Javascript native parseInt and toString.</h5>
+
+      <h6><a href="mailto:allyourbase@laibach.net">Email comments or abuse to me</a></h6>
+
+   </body>
+
 </html>
