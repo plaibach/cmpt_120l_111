@@ -3,7 +3,11 @@
    // Project 4 - Game v0.6
    // Due 2014.11.13
 
-// Features to add
+// To do!
+   // REFACTOR JUST ABOUT EVERYTHING :-( so navigation logic is room based rather than directional based.
+   //    Create instances of as rooms as objects using class/prototype.
+   //       Assign attributes for permitted directions, items in room, etc.
+   //    Use switch-case constructs for navigation rather than if-else.
    // Inventory: list of items in rucksack.
    // Inventory: list of items in current location.
    // Add lotion counter for assistance out of Abyss
