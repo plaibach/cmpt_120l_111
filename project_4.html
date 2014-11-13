@@ -35,16 +35,23 @@
          font-family:'courier new';
          font-size: 120%;
       }
+      h4 {
+         font-family:'courier new';
+      }
       textarea {
          outline: none;
       }
       textarea[name=taStatus] {
-         resize: none;
          background-color: lightpink;
+         resize: none;
       }
       textarea[name=taHistory] {
          background-color: black;
          color: lime;
+      }
+      textarea[name=taInventory] {
+         background-color: lightpink;
+         resize: none;
       }
       input[type="button"] {
          background-color: green;
@@ -63,7 +70,7 @@
 
 <!-- Set focus to input txtCommand
      Set directional buttons to initial valid status -->
-<body onload="initializeOnRefresh();">
+<body onload="initializeOnLoad();">
 
    <h1>
       Victoria's Secret
@@ -118,12 +125,17 @@
    <br>
    <br>
 
-   <textarea id="taHistory" name="taHistory" rows="12" cols="48" readonly></textarea>
+   <textarea id="taHistory" name="taHistory" rows="16" cols="48" readonly></textarea>
+   <br>
+   <br>
+
+   <textarea id="taInventory" name="taInventory" rows="4" cols="48" readonly></textarea>
+   <br>
    <br>
    <br>
 
    <!-- mailto: link to send you e-mail -->
-   <a href="mailto:marist@laibach.net">Yo. Email me!</a>
+   <a href="mailto:cmpt120@laibach.net">Email comments or abuse to me</a>
    <br>
    <br>
 
