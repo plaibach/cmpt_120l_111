@@ -49,9 +49,9 @@
       this.itemVolume = 0;
    }
 
-   var helpText = "You may navigate by clicking the directional buttons. You may also navigate by entering \"W\", \"N\", \"S\", or \"E\" in the command bar and then pressing [Enter] or clicking [Go].\n\nAll other actions are available only through use of the command bar. For example, your rucksack inventory may be displayed by typing \"Inventory\" in the command bar and then pressing [Enter] or clicking [Go].\n\nIf you notice an intersting item while stumbling around, you may wish to \"take\" that item. Of course, it's still up to you to figure out what is useful and how to use it.";
+   var helpText = "You may navigate by clicking the directional buttons. You may also navigate by entering \"W\", \"N\", \"S\", or \"E\" in the command bar and then pressing [Enter] or clicking [Go].\n\nAll other actions are available only through use of the command bar. For example, your rucksack inventory may be displayed by typing \"Inventory\" in the command bar and then pressing [Enter] or clicking [Go].\n\nTry commands and phrases using keywords such as \"Look\", \"Find\", \"Take\", and \"Drop\".\n\nFor example, if you find a possibly useful item while stumbling about, a \"take [item]\" command might work. Even so, it's still up to you to figure out what is useful and how to use it.";
 
-   var inventoryList = "Dude, you ain't got shit yet. Nothin'!";
+   var inventoryList = "Dude, you ain't got shit!\n Nothin' but an empty rucksack.";
 
 //
 // END OF DECLARE AND DEFINE GLOBAL VARIABLES AND CLASSES
@@ -67,8 +67,8 @@
    // Begin parsing / processing valid strings, otherwise do nothing except set placeholder message.
    function verifyTxtPresent() {
       if (txtCommand.value === "") {
-   //      txtCommand.placeholder = "Yo. Yur shootin' blanks... ya'll gotta type sumptin'!";
-   //      document.getElementById("btnTxtCommand").disabled = true;
+         txtCommand.placeholder = "Dude. Just type \"Help\" and press [Enter]!";
+         document.getElementById("btnTxtCommand").disabled = true;
          focusOnTxtCommand();
       }  else {
             simpleTxtCommand();
@@ -98,23 +98,19 @@
    // Pass control to escape from the Abyss function.
    function specialTxtCommands() {
       var playerAction = "txtCommand \"" + txtCommand.value + "\"";
-      if ((txtCommand.value.search(/help/i) !== -1)){
+      if ((txtCommand.value.search(/help/i) !== -1)) {
          showHelp(playerAction);
-      }  else {
-            if ((txtCommand.value.search(/inv/i) !== -1)){
-               showInventory(playerAction);
-            }  else {
-                  if (currentLoc === "Room4") {
-                     if ((txtCommand.value.search(/rub/i) !== -1) && (txtCommand.value.search(/lotion/i) !== -1)){
-                        escapedAbyss(playerAction);
-                     }  else {
-                           unknownTxtCommand();
-                        }
-                  }  else {
-                     unknownTxtCommand();
+      }  else if ((txtCommand.value.search(/inv/i) !== -1)) {
+         showInventory(playerAction);
+      }  else if ((txtCommand.value.search(/tak/i) !== -1)) {
+         takeItem();
+      }  else if (currentLoc === "Room4") {
+                  if ((txtCommand.value.search(/rub/i) !== -1) && (txtCommand.value.search(/lotion/i) !== -1)) {
+                     escapedAbyss(playerAction);
                   }
-               }
-         }
+      }  else {
+         unknownTxtCommand();
+      }
    }
 
    function showHelp() {
@@ -135,8 +131,13 @@
    // Bypass navigation processing and proceed to update displays.
    function unknownTxtCommand() {
       var playerAction = "txtCommand \"" + txtCommand.value + "\"";
-      var message = "Please enter \"W\", \"N\", \"S\", or \"E\"; then press Enter or click [Go].\nYou may also request \"Help\" to view the full list of commands available.";
+      var message = "Please type \"W\", \"N\", \"S\", or \"E\"; then press [Enter] or click [Go].\nYou may also request \"Help\" to view the full list of commands available.";
       updateAllDisplays (playerAction, message);
+   }
+
+   function takeItem() {
+      // I don't care what you asked for, you get the wrench.
+      alert("You've go the wrench.");
    }
 
 //
@@ -331,7 +332,7 @@
             wrench.itemVolume = 8;
          var goldfingerDvd = new inventoryItem();
             goldfingerDvd.itemName = "Goldfinger DVD";
-            goldfingerDvd.itemLocation = "Room3";
+            goldfingerDvd.itemLocation = "Rucksack";
             goldfingerDvd.itemWeight = 3;
             goldfingerDvd.itemVolume = 3;
          var yogaPants = new inventoryItem();
@@ -406,7 +407,7 @@
  
       // Since we are here, some form of valid button or user text command input has been processed, so reset any special placeholders.
       function resetTxtCommandPlaceHolder() {
-         txtCommand.placeholder="Enter command or \"Help\" then press Enter";
+         txtCommand.placeholder="Type a command or \"Help\" then press [Enter].";
       }
 
       // Clear out the multiPurposeTextArea when processing any subsequent input.
