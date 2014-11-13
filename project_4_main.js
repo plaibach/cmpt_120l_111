@@ -1,11 +1,19 @@
+// BIG Ideas!
+// Inventory: list of items in rucksack.
+// Inventory: list of items in current location.
+
 //
-// BEGINNING OF DECLARE AND DEFINE GLOBAL VARIABLES
+// BEGINNING OF DECLARE AND DEFINE GLOBAL VARIABLES AND CLASSES
 //
 
    // Must be declared and defined prior to onload event
+
+   // Variables used for status textarea.
    var totalScore = 0;
    var previousLoc = "";
    var currentLoc = "Room1";
+
+   // Variables used for scoring and sarcasm.
    var hasVisitedRoom1 = true;
    var hasVisitedRoom2 = false;
    var hasVisitedRoom3 = false;
@@ -13,9 +21,25 @@
    var hasVisitedRoom5 = false;
    var hasVisitedRoom6 = false;
    var hasVisitedRoom7 = false;
+   var hasVisitedRoom8 = false;
+   var hasVisitedRoom9 = false;
+   var hasVisitedRoom10 = false;
+
+   // Variables for rucksack inventory (carrying) limits
+   var rucksackMaxItems = "4";
+   var rucksackMaxWeight = "30";
+   var rucksackMaxVolume = "40";
+
+   // Inventory item class/prototype.
+   function inventoryItem() {
+      this.itemName = "";
+      this.itemLocation = "";
+      this.itemWeight = 0;
+      this.itemVolume = 0;
+   }
 
 //
-// END OF DECLARE AND DEFINE GLOBAL VARIABLES
+// END OF DECLARE AND DEFINE GLOBAL VARIABLES AND CLASSES
 //
 
 //
@@ -24,9 +48,6 @@
 
    // integerVariable = parseInt(stringVariable);
    // returns NaN if unable to parse
-   function textTest() {
-      alert("textTest");
-   }
    // Validate text command input.
    // Begin parsing / processing valid strings, otherwise do nothing except set placeholder message.
    function verifyTxtPresent() {
@@ -197,18 +218,7 @@
                var message = "Erm... sorry. No place to go in that direction.";
             }  else {
                   if (currentLoc === "Room3") {
-                  
-                  
-                  
-                     var message = "Welcome to the guessing room :-p You're stuck here until you guess the magic number :-(";
-                     currentLoc === "Room7";
-                     if (hasVisitedRoom7 === false) {
-                     mustGuess();
-                     }
-                     hasVisitedRoom7 = true;
-                  
-                  
-                  
+                     var message = "Erm... sorry. No place to go in that direction.";
                   }  else {
                         if (currentLoc === "Room4") {
                            var message = "It rubs the lotion on its skin or else it gets the hose again.";
@@ -237,16 +247,16 @@
 // BEGINNING OF ARBITRARY NAVIGATION PROCESSING
 //
 
+   // This is left over from the guessing exercise, and may be utilized a bit later on.
+   // function mustGuess(playerAction) {
+   //    var secretNumber = 7;
+   //    var stillGuessing = true;
+   //    var guessedNumber = prompt("Guess a freakin' number.") ;
+   //    guessedNumber = parseInt(guessedNumber);
+   //    alert (guessedNumber);
+   // }
 
-   function mustGuess(playerAction) {
-      var secretNumber = 7;
-      var stillGuessing = true;
-      var guessedNumber = prompt("Guess a freakin' number.") ;
-      guessedNumber = parseInt(guessedNumber);
-      alert (guessedNumber);
-   }
-
-
+   // This is where we end up after "rub and "lotion" are parsed while in Room4, the Abyss.
    function escapedAbyss(playerAction) {
       var message = "The scent of the lotion overwhelms you. You fight to hold on to consciousness, but become dizzy and confused. It seems you are tumbling through space; through a blurred jumble of doors and passages.\n\nYour flight halts abruptly and you find yourself suspended and spinning slowly in a room with glowing walls and ceiling. There is no floor below, just a shaft leading downward and away out of sight.\n\nThere is a bright flash and you are released to fall painfully into the chute, tumbling and landing in a heap. Congratulations! You have successfully employed the portal - you escaped the pit, traversed Room 6 and the chute, and made it to the Annex.";
       currentLoc = "Room5";
@@ -269,20 +279,54 @@
 // BEGINNING OF DOCUMENT ELEMENT UPDATES
 //
 
-   // Initialize document elements onload as necessary.
-   function initializeOnRefresh() {
-      var playerAction = "Refresh";
-      var message = "You have just entered an unmarked door at the south end of a nondescript building. The door swings gently shut behind you and latches with a slight, yet somehow ominous \"click.\"";
-      updateStatusTextArea(playerAction, message);
-      updateHistoryTextArea(playerAction, message);
-      focusOnTxtCommand();
-      setBtnState();
-   }
+   // Initialize function initializeOnLoad called from the html <body> tag onload event.
+      function initializeOnLoad() {
+         // Create initial instances of inventory class/prototype items.
+         var flannelPajamas = new inventoryItem();
+            flannelPajamas.itemName = "Flannel Pajamas";
+            flannelPajamas.itemLocation = "Room0";
+            flannelPajamas.itemWeight = 5;
+            flannelPajamas.itemVolume = 5;
+         var wrench = new inventoryItem();
+            wrench.itemName = "Wrench";
+            wrench.itemLocation = "Room1";
+            wrench.itemWeight = 15;
+            wrench.itemVolume = 8;
+         var goldfingerDvd = new inventoryItem();
+            goldfingerDvd.itemName = "Goldfinger DVD";
+            goldfingerDvd.itemLocation = "Room2";
+            goldfingerDvd.itemWeight = 3;
+            goldfingerDvd.itemVolume = 3;
+         var yogaPants = new inventoryItem();
+            yogaPants.itemName = "Yoga Pants";
+            yogaPants.itemLocation = "Room3";
+            yogaPants.itemWeight = 5;
+            yogaPants.itemVolume = 5;
+         var dodgeballBall = new inventoryItem();
+            dodgeballBall.itemName = "Dodgeball Ball";
+            dodgeballBall.itemLocation = "Room4";
+            dodgeballBall.itemWeight = 10;
+            dodgeballBall.itemVolume = 30;
+         var dogBiscuit = new inventoryItem();
+            dogBiscuit.itemName = "Dog Biscuit";
+            dogBiscuit.itemLocation = "Room5";
+            dogBiscuit.itemWeight = 3;
+            dogBiscuit.itemVolume = 3;
+         // Set initial display variables and document elements' state.
+         var playerAction = "Refresh";
+         var message = "You have just entered an unmarked door at the south end of a nondescript building. The door swings gently shut behind you and latches with a slight, yet somehow ominous \"click.\"";
+         updateStatusTextArea();
+         updateHistoryTextArea(playerAction, message);
+         updateInventoryTextArea();
+         focusOnTxtCommand();
+         setBtnState();
+      }
 
    // Package all functions required to update document elements, passing along local variables for use as necessary.
    function updateAllDisplays(playerAction, message) {
       updateStatusTextArea();
       updateHistoryTextArea(playerAction, message);
+      updateInventoryTextArea();
       clearTxtCommand();
       resetTxtCommandPlaceHolder();
       focusOnTxtCommand();
@@ -303,8 +347,18 @@
          }  else {
                historyTextArea.value = historyTextArea.value + "\n" + "[" + playerAction + "]" + "\n\n" + message + "\n";
             }
-//         historyTextArea.value = taHistory.value
          historyTextArea.scrollTop = historyTextArea.scrollHeight
+      }
+
+      // Display contents of rucksack in inventory textarea.
+      function updateInventoryTextArea(rucksackCount, rucksackContents) {
+         var inventoryTextArea = document.getElementById("taInventory");
+         if (rucksackCount !== "0") {
+            inventoryTextArea.value = "Inventory: Your Rucksack is empty.";
+         }  else {
+               inventoryTextArea.value = "Your Rucksack is NOT empty.";
+            }
+
       }
 
       // Since we are here, user text command input has either been evaluated and utilized, or discarded (and possibly dirty), so reset field to blank.
@@ -330,47 +384,47 @@
             document.getElementById("btnSouth").disabled = true;
             document.getElementById("btnEast").disabled = true;
          }  else {
-               if (currentLoc === "Room2") {
-                  document.getElementById("btnWest").disabled = false;
-                  document.getElementById("btnNorth").disabled = false;
-                  document.getElementById("btnSouth").disabled = false;
-                  document.getElementById("btnEast").disabled = true;
-               }  else {
-                     if (currentLoc === "Room3") {
-                        document.getElementById("btnWest").disabled = true;
-                        document.getElementById("btnNorth").disabled = false;
-                        document.getElementById("btnSouth").disabled = false;
-                        document.getElementById("btnEast").disabled = false;
-                     }  else {
-                           if (currentLoc === "Room4") {
-                              document.getElementById("btnWest").disabled = true;
-                              document.getElementById("btnNorth").disabled = true;
-                              document.getElementById("btnSouth").disabled = true;
-                              document.getElementById("btnEast").disabled = true;
-                           }  else {
-                                 if (currentLoc === "Room5") {
-                                    document.getElementById("btnWest").disabled = true;
-                                    document.getElementById("btnNorth").disabled = true;
-                                    document.getElementById("btnSouth").disabled = true;
-                                    document.getElementById("btnEast").disabled = false;
-                                 }  else {
-                                       if (currentLoc === "Room6") {
-                                          document.getElementById("btnWest").disabled = true;
-                                          document.getElementById("btnNorth").disabled = true;
-                                          document.getElementById("btnSouth").disabled = true;
-                                          document.getElementById("btnEast").disabled = true;
-                                       }  else {
-                                             if (currentLoc === "Room7") {
-                                                document.getElementById("btnWest").disabled = true;
-                                                document.getElementById("btnNorth").disabled = true;
-                                                document.getElementById("btnSouth").disabled = true;
-                                                document.getElementById("btnEast").disabled = true;
-                                             }
-                                       }
-                                 }
-                           }
-                     }
-               }  
+         if (currentLoc === "Room2") {
+            document.getElementById("btnWest").disabled = false;
+            document.getElementById("btnNorth").disabled = false;
+            document.getElementById("btnSouth").disabled = false;
+            document.getElementById("btnEast").disabled = true;
+         }  else {
+         if (currentLoc === "Room3") {
+            document.getElementById("btnWest").disabled = true;
+            document.getElementById("btnNorth").disabled = false;
+            document.getElementById("btnSouth").disabled = false;
+            document.getElementById("btnEast").disabled = true;
+         }  else {
+         if (currentLoc === "Room4") {
+            document.getElementById("btnWest").disabled = true;
+            document.getElementById("btnNorth").disabled = true;
+            document.getElementById("btnSouth").disabled = true;
+            document.getElementById("btnEast").disabled = true;
+         }  else {
+         if (currentLoc === "Room5") {
+            document.getElementById("btnWest").disabled = true;
+            document.getElementById("btnNorth").disabled = true;
+            document.getElementById("btnSouth").disabled = true;
+            document.getElementById("btnEast").disabled = false;
+         }  else {
+         if (currentLoc === "Room6") {
+            document.getElementById("btnWest").disabled = true;
+            document.getElementById("btnNorth").disabled = true;
+            document.getElementById("btnSouth").disabled = true;
+            document.getElementById("btnEast").disabled = true;
+         }  else {
+         if (currentLoc === "Room7") {
+            document.getElementById("btnWest").disabled = true;
+            document.getElementById("btnNorth").disabled = true;
+            document.getElementById("btnSouth").disabled = true;
+            document.getElementById("btnEast").disabled = true;
+         }
+            }
+            }
+            }
+            }
+            }
             }
       }
 
