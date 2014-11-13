@@ -7,11 +7,8 @@
    Due 2014.11.13
 -->
 
-<!-- To DO
-   Tie together all breadCrumbs for debug trace
-   Add toggle for debug on/off
-   Add lotion counter for assistance out of Abyss
-   Add chute attempt-fail for Room 5
+<!-- To Do
+
 -->
 
 <head>
@@ -31,35 +28,38 @@
          color:red;
          font-size: 140%;
       }
-      h3 {
-         font-family:'courier new';
-         font-size: 120%;
-      }
       h4 {
-         font-family:'courier new';
+         font-family:tahoma,verdana,sans-serif;
+      }
+      td {
+         text-align:center;
       }
       textarea {
          outline: none;
       }
       textarea[name=taStatus] {
-         background-color: lightpink;
+         background-color:lightpink;
          resize: none;
       }
       textarea[name=taHistory] {
-         background-color: black;
+         background-color:black;
          color: lime;
       }
-      textarea[name=taInventory] {
-         background-color: lightpink;
-         resize: none;
+      textarea[name=taMultiPurpose] {
+         text-align:center;
+         border:none;
+         resize:none;
       }
       input[type="button"] {
-         background-color: green;
-         color: white;
+         background-color:green;
+         color:white;
       }
       input[type="button"]:disabled {
-         background-color: red;
-         color: white;
+         background-color:red;
+         color:white;
+      }
+      input[type="text"] {
+         text-align:center;
       }
       .footer {font-style:italic;}
    </style>
@@ -72,70 +72,82 @@
      Set directional buttons to initial valid status -->
 <body onload="initializeOnLoad();">
 
-   <h1>
-      Victoria's Secret
-   </h1>
+   <table>
+      <tr>
+         <td>
+            <h1>Victoria's Secret</h1>
+            <h2>A Journey of Death and Lingerie</h2>
+            <textarea id="taStatus" name="taStatus" rows="2" cols="48" readonly></textarea>
+            <br>
+            <br>
+            <input type="button"
+                   id="btnWest"
+                   value="West"
+                   onclick="attemptGoWest(btnWest.id);" />
 
-   <h2>
-      A Journey of Death and Lingerie
-   </h2>
+            <input type="button"
+                   id="btnNorth"
+                   value="North" 
+                   onclick="attemptGoNorth(btnNorth.id);" />
 
-   <h3>
-      by Paul Laibach
-   </h3>
+            <input type="button"
+                   id="btnSouth"
+                   value="South" 
+                   onclick="attemptGoSouth(btnSouth.id);" />
 
-   <textarea id="taStatus" name="taStatus" rows="2" cols="48" readonly></textarea>
-   <br>
-   <br>
+            <input type="button"
+                   id="btnEast"
+                   value="East" 
+                   onclick="attemptGoEast(btnEast.id);" />
+            <br>
+            <br>
+            <input type="text"
+                   id = "txtCommand"
+                   name="txtCommand"
+                   size="40"
+                   onkeypress="if (event.keyCode == 13) verifyTxtPresent();" />
 
-      <input type="button"
-             id="btnWest"
-             value="West"
-             onclick="attemptGoWest(btnWest.id);" />
+            <input type="button"
+                   id="btnTxtCommand"
+                   name="btnTxtCommand"
+                   value="Go" 
+                   onclick="verifyTxtPresent();" />
+            <br>
+            <br>
+         </td>
+         <td>
+            &nbsp;&nbsp;&nbsp;
+         </td>
+         <td>
+            <img src="secretmap_320x193.png" alt="Map of Victoria's Secret game" />
+         </td>
+      <tr>
+         <td>
+            <textarea id="taHistory" name="taHistory" rows="18" cols="48" readonly></textarea>
+         </td>
+         <td>
+         </td>
+         <td>
+            <textarea id="taMultiPurpose" name="taMultiPurpose" rows="18" cols="48" readonly></textarea>
+         </td>
+      </tr>
+      <tr>
+         <td>
+            <h4><span style="font-family:'brush script mt',cursive; font-size:175%;">By </span>plaibach</h4>
+         </td>
+         <td>
+         </td>
+         <td>
+         </td>
+      </tr>
+   </table>
 
-      <input type="button"
-             id="btnNorth"
-             value="North" 
-             onclick="attemptGoNorth(btnNorth.id);" />
-
-      <input type="button"
-             id="btnSouth"
-             value="South" 
-             onclick="attemptGoSouth(btnSouth.id);" />
-
-      <input type="button"
-             id="btnEast"
-             value="East" 
-             onclick="attemptGoEast(btnEast.id);" />
-   <br>
-   <br>
-
-      <input type="text"
-             id = "txtCommand"
-             name="txtCommand"
-             size="40"
-             placeholder="Click direction above -or- Enter text command here"
-             onkeypress="if (event.keyCode == 13) verifyTxtPresent();" />
-             
-      <input type="button"
-             id="btnTxtCommand"
-             name="btnTxtCommand"
-             value="Go" 
-             onclick="verifyTxtPresent();" />
-   <br>
-   <br>
-
-   <textarea id="taHistory" name="taHistory" rows="16" cols="48" readonly></textarea>
-   <br>
-   <br>
-
-   <textarea id="taInventory" name="taInventory" rows="4" cols="48" readonly></textarea>
-   <br>
    <br>
    <br>
 
    <!-- mailto: link to send you e-mail -->
    <a href="mailto:cmpt120@laibach.net">Email comments or abuse to me</a>
+
    <br>
    <br>
 

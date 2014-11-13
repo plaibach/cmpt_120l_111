@@ -1,6 +1,13 @@
-// BIG Ideas!
-// Inventory: list of items in rucksack.
-// Inventory: list of items in current location.
+// Paul C. Laibach
+   // Introduction to Programming
+   // Project 4 - Game v0.6
+   // Due 2014.11.13
+
+// Features to add
+   // Inventory: list of items in rucksack.
+   // Inventory: list of items in current location.
+   // Add lotion counter for assistance out of Abyss
+   // Add chute attempt-fail for Room 5
 
 //
 // BEGINNING OF DECLARE AND DEFINE GLOBAL VARIABLES AND CLASSES
@@ -37,6 +44,10 @@
       this.itemWeight = 0;
       this.itemVolume = 0;
    }
+
+   var helpText = "You may navigate by clicking the directional buttons. You may also navigate by entering \"W\", \"N\", \"S\", or \"E\" in the command bar and then pressing [Enter] or clicking [Go].\n\nAll other actions are available only through use of the command bar. For example, your rucksack inventory may be displayed by typing \"Inventory\" in the command bar and then pressing [Enter] or clicking [Go].\n\nIf you notice an intersting item while stumbling around, you may wish to \"take\" that item. Of course, it's still up to you to figure out what is useful and how to use it.";
+
+   var inventoryList = "Dude, you ain't got shit yet. Nothin'!";
 
 //
 // END OF DECLARE AND DEFINE GLOBAL VARIABLES AND CLASSES
@@ -75,30 +86,52 @@
             break;
          case "e": attemptGoEast(playerAction);
             break;
-         default: specialTxtCommand();
+         default: specialTxtCommands();
       }
    }
 
    // Check txtCommand for substrings "rub" and "lotion"
    // Pass control to escape from the Abyss function.
-   function specialTxtCommand() {
-      if (currentLoc === "Room4") {
-         var playerAction = "txtCommand \"" + txtCommand.value + "\"";
-            if ((txtCommand.value.search(/rub/i) !== -1) && (txtCommand.value.search(/lotion/i) !== -1)){
-               escapedAbyss(playerAction);
-            }  else {
-                  unknownTxtCommand();
-               }
+   function specialTxtCommands() {
+      var playerAction = "txtCommand \"" + txtCommand.value + "\"";
+      if ((txtCommand.value.search(/help/i) !== -1)){
+         showHelp(playerAction);
       }  else {
-            unknownTxtCommand();
+            if ((txtCommand.value.search(/inv/i) !== -1)){
+               showInventory(playerAction);
+            }  else {
+                  if (currentLoc === "Room4") {
+                     if ((txtCommand.value.search(/rub/i) !== -1) && (txtCommand.value.search(/lotion/i) !== -1)){
+                        escapedAbyss(playerAction);
+                     }  else {
+                           unknownTxtCommand();
+                        }
+                  }  else {
+                     unknownTxtCommand();
+                  }
+               }
          }
+   }
+
+   function showHelp() {
+      var playerAction = "txtCommand \"" + txtCommand.value + "\"";
+      var message = "Help displayed at right -->";
+      var multiPurposeText = helpText;
+      updateMultiPurposeTextArea (playerAction, message, multiPurposeText);
+   }
+
+   function showInventory() {
+      var playerAction = "txtCommand \"" + txtCommand.value + "\"";
+      var message = "Inventory displayed at right -->";
+      var multiPurposeText = inventoryList;
+      updateMultiPurposeTextArea (playerAction, message, multiPurposeText);
    }
 
    // Provide help when text commands are unrecognized by any other function.
    // Bypass navigation processing and proceed to update displays.
    function unknownTxtCommand() {
       var playerAction = "txtCommand \"" + txtCommand.value + "\"";
-      var message = "Please enter \"W\", \"N\", \"S\", or \"E\"; then press Enter or click \'Go\"\n(You may use UPPER or lower case letters.)";
+      var message = "Please enter \"W\", \"N\", \"S\", or \"E\"; then press Enter or click [Go].\nYou may also request \"Help\" to view the full list of commands available.";
       updateAllDisplays (playerAction, message);
    }
 
@@ -284,32 +317,32 @@
          // Create initial instances of inventory class/prototype items.
          var flannelPajamas = new inventoryItem();
             flannelPajamas.itemName = "Flannel Pajamas";
-            flannelPajamas.itemLocation = "Room0";
+            flannelPajamas.itemLocation = "Room1";
             flannelPajamas.itemWeight = 5;
             flannelPajamas.itemVolume = 5;
          var wrench = new inventoryItem();
             wrench.itemName = "Wrench";
-            wrench.itemLocation = "Room1";
+            wrench.itemLocation = "Room2";
             wrench.itemWeight = 15;
             wrench.itemVolume = 8;
          var goldfingerDvd = new inventoryItem();
             goldfingerDvd.itemName = "Goldfinger DVD";
-            goldfingerDvd.itemLocation = "Room2";
+            goldfingerDvd.itemLocation = "Room3";
             goldfingerDvd.itemWeight = 3;
             goldfingerDvd.itemVolume = 3;
          var yogaPants = new inventoryItem();
             yogaPants.itemName = "Yoga Pants";
-            yogaPants.itemLocation = "Room3";
+            yogaPants.itemLocation = "Room4";
             yogaPants.itemWeight = 5;
             yogaPants.itemVolume = 5;
          var dodgeballBall = new inventoryItem();
             dodgeballBall.itemName = "Dodgeball Ball";
-            dodgeballBall.itemLocation = "Room4";
+            dodgeballBall.itemLocation = "Room5";
             dodgeballBall.itemWeight = 10;
             dodgeballBall.itemVolume = 30;
          var dogBiscuit = new inventoryItem();
             dogBiscuit.itemName = "Dog Biscuit";
-            dogBiscuit.itemLocation = "Room5";
+            dogBiscuit.itemLocation = "Room6";
             dogBiscuit.itemWeight = 3;
             dogBiscuit.itemVolume = 3;
          // Set initial display variables and document elements' state.
@@ -317,18 +350,30 @@
          var message = "You have just entered an unmarked door at the south end of a nondescript building. The door swings gently shut behind you and latches with a slight, yet somehow ominous \"click.\"";
          updateStatusTextArea();
          updateHistoryTextArea(playerAction, message);
-         updateInventoryTextArea();
+         resetTxtCommandPlaceHolder();
          focusOnTxtCommand();
          setBtnState();
       }
+
+   // Display "Help" or "Inventory" or any temporary text we don't want in taHistory or taStatus.
+   function updateMultiPurposeTextArea(playerAction, message, multiPurposeText) {
+      var multiPurposeTextArea = document.getElementById("taMultiPurpose");
+      multiPurposeTextArea.value = multiPurposeText;
+      updateStatusTextArea();
+      updateHistoryTextArea(playerAction, message);
+      clearTxtCommand();
+      resetTxtCommandPlaceHolder();
+      focusOnTxtCommand();
+      setBtnState();
+   }
 
    // Package all functions required to update document elements, passing along local variables for use as necessary.
    function updateAllDisplays(playerAction, message) {
       updateStatusTextArea();
       updateHistoryTextArea(playerAction, message);
-      updateInventoryTextArea();
       clearTxtCommand();
       resetTxtCommandPlaceHolder();
+      clearMultiPurposeTextArea();
       focusOnTxtCommand();
       setBtnState();
    }
@@ -350,17 +395,6 @@
          historyTextArea.scrollTop = historyTextArea.scrollHeight
       }
 
-      // Display contents of rucksack in inventory textarea.
-      function updateInventoryTextArea(rucksackCount, rucksackContents) {
-         var inventoryTextArea = document.getElementById("taInventory");
-         if (rucksackCount !== "0") {
-            inventoryTextArea.value = "Inventory: Your Rucksack is empty.";
-         }  else {
-               inventoryTextArea.value = "Your Rucksack is NOT empty.";
-            }
-
-      }
-
       // Since we are here, user text command input has either been evaluated and utilized, or discarded (and possibly dirty), so reset field to blank.
       function clearTxtCommand() {
          txtCommand.value = "";
@@ -368,7 +402,13 @@
  
       // Since we are here, some form of valid button or user text command input has been processed, so reset any special placeholders.
       function resetTxtCommandPlaceHolder() {
-         txtCommand.placeholder="Click direction above -or- Enter text command here";
+         txtCommand.placeholder="Enter command or \"Help\" then press Enter";
+      }
+
+      // Clear out the multiPurposeTextArea when processing any subsequent input.
+      function clearMultiPurposeTextArea() {
+         var multiPurposeTextArea = document.getElementById("taMultiPurpose");
+         multiPurposeTextArea.value = "";
       }
 
       // Always return focus to user text command input field.
