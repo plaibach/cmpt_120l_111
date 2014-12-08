@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html>
+
+<!-- Paul C. Laibach
+   Introduction to Programming
+   Project 4 - Game v0.6
+   Due 2014.11.13
+-->
+
+<!-- To do!
+   Consider temporarily displaying map, Help, and Inventory in taHistory text area.
+-->
+
+<head>
+   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+   <meta name="author" content="Paul C. Laibach" />
+   <title>Project 2</title>
+
+   <!-- padding: top right bottom left; --> 
+   <style type="text/css">
+      h1 {
+         font-family:'lucida handwriting', 'comic sans ms', cursive;
+         color:purple;
+         font-size: 235%;
+      }
+      h2 {
+         font-family:'comic sans ms', cursive;
+         color:red;
+         font-size: 140%;
+      }
+      h4 {
+         font-family:tahoma,verdana,sans-serif;
+      }
+      td {
+         text-align:center;
+      }
+      textarea {
+         outline: none;
+      }
+      textarea[name=taStatus] {
+         background-color:lightpink;
+         resize: none;
+      }
+      textarea[name=taHistory] {
+         background-color:black;
+         color: lime;
+      }
+      textarea[name=taMultiPurpose] {
+         text-align:center;
+         border:none;
+         resize:none;
+      }
+      input[type="button"] {
+         background-color:green;
+         color:white;
+      }
+      input[type="button"]:disabled {
+         background-color:red;
+         color:white;
+      }
+      input[type="text"] {
+         text-align:center;
+      }
+      .footer {font-style:italic;}
+   </style>
+
+   <script type="text/javascript" src="project_4_main.js"></script>
+
+</head>
+
+<!-- Set focus to input txtCommand
+     Set directional buttons to initial valid status -->
+<body onload="initializeOnLoad();">
+
+   <table>
+      <tr>
+         <td>
+            <h1>Victoria's Secret</h1>
+            <h2>A Journey of Death and Lingerie</h2>
+            <textarea id="taStatus" name="taStatus" rows="2" cols="48" readonly></textarea>
+            <br>
+            <br>
+            <input type="button"
+                   id="btnWest"
+                   value="West"
+                   onclick="attemptGoWest(btnWest.id);" />
+
+            <input type="button"
+                   id="btnNorth"
+                   value="North" 
+                   onclick="attemptGoNorth(btnNorth.id);" />
+
+            <input type="button"
+                   id="btnSouth"
+                   value="South" 
+                   onclick="attemptGoSouth(btnSouth.id);" />
+
+            <input type="button"
+                   id="btnEast"
+                   value="East" 
+                   onclick="attemptGoEast(btnEast.id);" />
+            <br>
+            <br>
+            <input type="text"
+                   id = "txtCommand"
+                   name="txtCommand"
+                   size="40"
+                   onkeypress="if (event.keyCode == 13) verifyTxtPresent();" />
+
+            <input type="button"
+                   id="btnTxtCommand"
+                   name="btnTxtCommand"
+                   value="Go" 
+                   onclick="verifyTxtPresent();" />
+            <br>
+            <br>
+         </td>
+         <td>
+            &nbsp;&nbsp;&nbsp;
+         </td>
+         <td>
+            <img src="secretmap_350x254.png" alt="Map of Victoria's Secret game" />
+         </td>
+      <tr>
+         <td>
+            <textarea id="taHistory" name="taHistory" rows="18" cols="48" readonly></textarea>
+         </td>
+         <td>
+         </td>
+         <td>
+            <textarea id="taMultiPurpose" name="taMultiPurpose" rows="18" cols="48" readonly></textarea>
+         </td>
+      </tr>
+      <tr>
+         <td>
+            <h4><span style="font-family:'brush script mt',cursive; font-size:175%;">By </span>plaibach</h4>
+         </td>
+         <td>
+         </td>
+         <td>
+         </td>
+      </tr>
+   </table>
+
+   <br>
+   <br>
+
+   <!-- mailto: link to send you e-mail -->
+   <a href="mailto:cmpt120@laibach.net">Email comments or abuse to me</a>
+
+   <br>
+   <br>
+
+   <p class="footer">
+      <a href="http://validator.w3.org/#validate_by_input">Validate as HTML5</a>
+      <br>
+      <a href="http://jigsaw.w3.org/css-validator/#validate_by_input">Validate CSS</a>
+   </p>
+
+   <p>
+      <a href="http://jigsaw.w3.org/css-validator/check/referer">
+         <img style="border:0;width:88px;height:31px"
+            src="http://jigsaw.w3.org/css-validator/images/vcss"
+            alt="Valid CSS!" />
+      </a>
+   </p>
+
+</body>
+
+</html>
