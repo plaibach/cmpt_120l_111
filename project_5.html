@@ -130,13 +130,14 @@
                    id = "txtCommand"
                    name="txtCommand"
                    size="40"
+                   onkeyup="setBtnTxtCommand();"
                    onkeypress="if (event.keyCode == 13) verifyTxtPresent();" />
 
             <input type="button"
                    id="btnTxtCommand"
                    name="btnTxtCommand"
                    value="Go" 
-                   onclick="verifyTxtPresent();" />
+                   onclick="simpleTextCommand();" />
             <br>
             <br>
          </td>
