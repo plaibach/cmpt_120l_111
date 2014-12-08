@@ -97,7 +97,9 @@
       }  else if (currentLoc === "Room4") {
                   if ((txtCommand.value.search(/rub/i) !== -1) && (txtCommand.value.search(/lotion/i) !== -1)) {
                      escapedAbyss(playerAction);
-                  }
+                  } else {
+                    unknownTxtCommand();
+                    }
       }  else {
          unknownTxtCommand();
       }
