@@ -1,17 +1,7 @@
 // Paul C. Laibach
    // Introduction to Programming
-   // Project 4 - Game v0.6
-   // Due 2014.11.13
-
-// To do!
-   // REFACTOR JUST ABOUT EVERYTHING :-( so navigation logic is room based rather than directional based.
-   //    Create instances of as rooms as objects using class/prototype.
-   //       Assign attributes for permitted directions, items in room, etc.
-   //    Use switch-case constructs for navigation rather than if-else.
-   // Inventory: list of items in rucksack.
-   // Inventory: list of items in current location.
-   // Add lotion counter for assistance out of Abyss
-   // Add chute attempt-fail for Room 5
+   // Project 5 - Game v0.8
+   // Due 2014.11.30
 
 //
 // BEGINNING OF DECLARE AND DEFINE GLOBAL VARIABLES AND CLASSES
@@ -145,175 +135,6 @@
 //
 
 //
-// BEGINNING OF SEQUENTIAL NAVIGATION PROCESSING
-//
-
-   function attemptGoWest(playerAction) {
-      // Begin conditionals for function attemptGoWest
-      if (currentLoc === "Room1") {
-         var message = "Erm... sorry. No place to go in that direction.";
-      }  else {
-            if (currentLoc === "Room2") {
-               var message = "You have entered Room5, the Annex.";
-               currentLoc = "Room5";
-               if (hasVisitedRoom5 === false) {
-                  totalScore = totalScore + 5;
-               }
-               hasVisitedRoom5 = true;
-            }  else {
-                  if (currentLoc === "Room3") {
-                     var message = "Erm... sorry. No place to go in that direction.";
-                  }  else {
-                        if (currentLoc === "Room4") {
-                           var message = "It rubs the lotion on its skin or else it gets the hose again.";
-                        }  else {
-                              if (currentLoc === "Room5") {
-                                 var message = "Erm... sorry. No place to go in that direction.";
-                              }
-                           }
-                     }
-               }
-         }
-      updateAllDisplays (playerAction, message);
-   }
-
-   function attemptGoNorth(playerAction) {
-      // Begin conditionals for function attemptGoNorth
-      if (currentLoc === "Room1") {
-         var message = "You have entered Room2.";
-         currentLoc = "Room2";
-         if (hasVisitedRoom2 === false) {
-            totalScore = totalScore + 5;
-         }
-         hasVisitedRoom2 = true;
-      }  else {
-            if (currentLoc === "Room2") {
-               var message = "You have entered Room3.";
-               currentLoc = "Room3";
-               if (hasVisitedRoom3 === false) {
-                  totalScore = totalScore + 5;
-               }
-               hasVisitedRoom3 = true;
-            }  else {
-                  if (currentLoc === "Room3") {
-                     var message = "You have fallen a long distance down into Room4. Welcome to THE ABYSS! There is no way out :-O (Or... is there?)";
-                     currentLoc = "Room4";
-                     if (hasVisitedRoom4 === false) {
-                        totalScore = totalScore + 5;
-                     }
-                     hasVisitedRoom4 = true;
-                  }  else {
-                        if (currentLoc === "Room4") {
-                           var message = "It rubs the lotion on its skin or else it gets the hose again.";
-                        }  else {
-                              if (currentLoc === "Room5") {
-                                 var message = "Erm... sorry. No place to go in that direction.";
-                              }
-                           }
-                     }
-               }
-         }
-      updateAllDisplays (playerAction, message);
-   }
-
-   function attemptGoSouth(playerAction) {
-      // Begin conditionals for function attemptGoSouth
-      if (currentLoc === "Room1") {
-         var message = "Sorry, the door locked behind you when you stepped in. There is a keyhole, but you don't have any keys.";
-      }  else {
-            if (currentLoc === "Room2") {
-               var message = "You have returned to Room1. This isn't getting you anywhere.";
-               currentLoc = "Room1";
-            }  else {
-                  if (currentLoc === "Room3") {
-                     var message = "You have returned to Room2. Boring.";
-                     currentLoc = "Room2";
-                     // In basic sequential (walking) navigation, the totalScore update logic, and hasVisitedRoom# update are not necessary. However, let's leave this code in place, to accomodate implementation of navigation by teleportation, hyperspace, or wormhole.
-                     if (hasVisitedRoom2 === false) {
-                        totalScore = totalScore + 5;
-                     }
-                     hasVisitedRoom2 = true;
-                  }  else {
-                        if (currentLoc === "Room4") {
-                           var message = "It rubs the lotion on its skin or else it gets the hose again.";
-                        }  else {
-                              if (currentLoc === "Room5") {
-                                 var message = "Erm... sorry. No place to go in that direction.";
-                              }
-                           }
-                     }
-               }
-         }
-      updateAllDisplays (playerAction, message);
-   }
-
-   function attemptGoEast(playerAction) {
-      // Begin conditionals for function attemptGoEast
-      if (currentLoc === "Room1") {
-         var message = "Erm... sorry. No place to go in that direction.";
-      }  else {
-            if (currentLoc === "Room2") {
-               var message = "Erm... sorry. No place to go in that direction.";
-            }  else {
-                  if (currentLoc === "Room3") {
-                     var message = "Erm... sorry. No place to go in that direction.";
-                  }  else {
-                        if (currentLoc === "Room4") {
-                           var message = "It rubs the lotion on its skin or else it gets the hose again.";
-                        }  else {
-                              if (currentLoc === "Room5") {
-                                 var message = "Back in Room2 again. Look at your life. Think about your choices.";
-                                 currentLoc = "Room2";
-                                 // In basic sequential (walking) navigation, the totalScore update logic, and hasVisitedRoom# update are not necessary. However, let's leave this code in place, to accomodate implementation of navigation by teleportation, hyperspace, or wormhole.
-                                 if (hasVisitedRoom2 === false) {
-                                    totalScore = totalScore + 5;
-                                 }
-                                 hasVisitedRoom2 = true;
-                              }
-                           }
-                     }
-               }
-         }
-      updateAllDisplays (playerAction, message);
-   }
-
-//
-// END OF SEQUENTIAL NAVIGATION PROCESSING
-//
-
-//
-// BEGINNING OF ARBITRARY NAVIGATION PROCESSING
-//
-
-   // This is left over from the guessing exercise, and may be utilized a bit later on.
-   // function mustGuess(playerAction) {
-   //    var secretNumber = 7;
-   //    var stillGuessing = true;
-   //    var guessedNumber = prompt("Guess a freakin' number.") ;
-   //    guessedNumber = parseInt(guessedNumber);
-   //    alert (guessedNumber);
-   // }
-
-   // This is where we end up after "rub and "lotion" are parsed while in Room4, the Abyss.
-   function escapedAbyss(playerAction) {
-      var message = "The scent of the lotion overwhelms you. You fight to hold on to consciousness, but become dizzy and confused. It seems you are tumbling through space; through a blurred jumble of doors and passages.\n\nYour flight halts abruptly and you find yourself suspended and spinning slowly in a room with glowing walls and ceiling. There is no floor below, just a shaft leading downward and away out of sight.\n\nThere is a bright flash and you are released to fall painfully into the chute, tumbling and landing in a heap. Congratulations! You have successfully employed the portal - you escaped the pit, traversed Room 6 and the chute, and made it to the Annex.";
-      currentLoc = "Room5";
-      if (hasVisitedRoom6 === false) {
-         totalScore = totalScore + 5;
-      }
-      if (hasVisitedRoom5 === false) {
-         totalScore = totalScore + 5;
-      }
-      hasVisitedRoom6 = true;
-      hasVisitedRoom5 = true;
-      updateAllDisplays (playerAction, message);
-   }
-
-//
-// END OF ARBITRARY NAVIGATION PROCESSING
-//
-
-//
 // BEGINNING OF DOCUMENT ELEMENT UPDATES
 //
 
@@ -351,6 +172,7 @@
             dogBiscuit.itemWeight = 3;
             dogBiscuit.itemVolume = 3;
          // Set initial display variables and document elements' state.
+         // Indicate "Refresh" upon onload. This will be the playerAction displayed when first landing at page or upon subsequent refresh.
          var playerAction = "Refresh";
          var message = "You have just entered an unmarked door at the south end of a nondescript building. The door swings gently shut behind you and latches with a slight, yet somehow ominous \"click.\"";
          updateStatusTextArea();
@@ -360,7 +182,7 @@
          setBtnState();
       }
 
-   // Display "Help" or "Inventory" or any temporary text we don't want in taHistory or taStatus.
+   // Display "Help" or "Inventory" or any other temporary text we don't want to include in taHistory or taStatus.
    function updateMultiPurposeTextArea(playerAction, message, multiPurposeText) {
       var multiPurposeTextArea = document.getElementById("taMultiPurpose");
       multiPurposeTextArea.value = multiPurposeText;
