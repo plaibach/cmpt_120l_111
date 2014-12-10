@@ -3,11 +3,26 @@
    // Project 5 - Game v0.8
    // Due 2014.11.30
 
+   // Variables used for scoring and sarcasm.
+   // These will all go away with refactoring to location array
+   var hasVisitedRoom1 = true;
+   var hasVisitedRoom2 = false;
+   var hasVisitedRoom3 = false;
+   var hasVisitedRoom4 = false;
+   var hasVisitedRoom5 = false;
+   var hasVisitedRoom6 = false;
+   var hasVisitedRoom7 = false;
+   var hasVisitedRoom8 = false;
+   var hasVisitedRoom9 = false;
+   var hasVisitedRoom10 = false;
+
 //
 // BEGIN ESTABLISH CLASS/PROTOTYPE OBJECTS AND ARRAYS
 //
 
    // Begin new mapLocale class/prototypes objects and array
+
+      // Instantiate mapLocale class/prototype instances.
       var locale_0 = new mapLocale();
          locale_0.localeID = 0;
          locale_0.localeVisits = 1;
@@ -82,7 +97,13 @@
 
    // Begin new item/inventory objects and array
 
-      // Create initial usefulItem class/prototype instances.
+      // Instantiate usefulItem class/prototype instances.
+      var item_0 = new usefulItem();
+         item_0.itemID = 0;
+         item_0.itemName = "Foo Item";
+         item_0.itemLocation = 0;
+         item_0.itemWeight = 0;
+         item_0.itemVolume = 0;
       var item_1 = new usefulItem();
          item_1.itemID = 1;
          item_1.itemName = "Flannel Pajamas";
@@ -120,7 +141,70 @@
          item_6.itemWeight = 3;
          item_6.itemVolume = 3;
 
+      // Store items in global array
+      var itemArray = [];
+         itemArray[0] =  item_0
+         itemArray[1] =  item_1
+         itemArray[2] =  item_2
+         itemArray[3] =  item_3
+         itemArray[4] =  item_4
+         itemArray[5] =  item_5
+         itemArray[6] =  item_6
+
    // End new item/inventory objects and array
+
+   // Start button status based upon relevant criteria
+   function setBtnState() {
+      if (currentLoc === "Room1") {
+         document.getElementById("btnWest").disabled = true;
+         document.getElementById("btnNorth").disabled = false;
+         document.getElementById("btnSouth").disabled = true;
+         document.getElementById("btnEast").disabled = true;
+      }  else {
+      if (currentLoc === "Room2") {
+         document.getElementById("btnWest").disabled = false;
+         document.getElementById("btnNorth").disabled = false;
+         document.getElementById("btnSouth").disabled = false;
+         document.getElementById("btnEast").disabled = true;
+      }  else {
+      if (currentLoc === "Room3") {
+         document.getElementById("btnWest").disabled = true;
+         document.getElementById("btnNorth").disabled = false;
+         document.getElementById("btnSouth").disabled = false;
+         document.getElementById("btnEast").disabled = true;
+      }  else {
+      if (currentLoc === "Room4") {
+         document.getElementById("btnWest").disabled = true;
+         document.getElementById("btnNorth").disabled = true;
+         document.getElementById("btnSouth").disabled = true;
+         document.getElementById("btnEast").disabled = true;
+      }  else {
+      if (currentLoc === "Room5") {
+         document.getElementById("btnWest").disabled = true;
+         document.getElementById("btnNorth").disabled = true;
+         document.getElementById("btnSouth").disabled = true;
+         document.getElementById("btnEast").disabled = false;
+      }  else {
+      if (currentLoc === "Room6") {
+         document.getElementById("btnWest").disabled = true;
+         document.getElementById("btnNorth").disabled = true;
+         document.getElementById("btnSouth").disabled = true;
+         document.getElementById("btnEast").disabled = true;
+      }  else {
+      if (currentLoc === "Room7") {
+         document.getElementById("btnWest").disabled = true;
+         document.getElementById("btnNorth").disabled = true;
+         document.getElementById("btnSouth").disabled = true;
+         document.getElementById("btnEast").disabled = true;
+      }
+         }
+         }
+         }
+         }
+         }
+         }
+   }
+   // End button status based upon relevant criteria
 
 //
 // END ESTABLISH CLASS/PROTOTYPE OBJECTS AND ARRAYS

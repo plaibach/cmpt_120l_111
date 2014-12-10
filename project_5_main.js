@@ -186,58 +186,6 @@
          document.getElementById("txtCommand").focus();
       }
 
-      // Set button status based upon relevant criteria
-      function setBtnState() {
-         if (currentLoc === "Room1") {
-            document.getElementById("btnWest").disabled = true;
-            document.getElementById("btnNorth").disabled = false;
-            document.getElementById("btnSouth").disabled = true;
-            document.getElementById("btnEast").disabled = true;
-         }  else {
-         if (currentLoc === "Room2") {
-            document.getElementById("btnWest").disabled = false;
-            document.getElementById("btnNorth").disabled = false;
-            document.getElementById("btnSouth").disabled = false;
-            document.getElementById("btnEast").disabled = true;
-         }  else {
-         if (currentLoc === "Room3") {
-            document.getElementById("btnWest").disabled = true;
-            document.getElementById("btnNorth").disabled = false;
-            document.getElementById("btnSouth").disabled = false;
-            document.getElementById("btnEast").disabled = true;
-         }  else {
-         if (currentLoc === "Room4") {
-            document.getElementById("btnWest").disabled = true;
-            document.getElementById("btnNorth").disabled = true;
-            document.getElementById("btnSouth").disabled = true;
-            document.getElementById("btnEast").disabled = true;
-         }  else {
-         if (currentLoc === "Room5") {
-            document.getElementById("btnWest").disabled = true;
-            document.getElementById("btnNorth").disabled = true;
-            document.getElementById("btnSouth").disabled = true;
-            document.getElementById("btnEast").disabled = false;
-         }  else {
-         if (currentLoc === "Room6") {
-            document.getElementById("btnWest").disabled = true;
-            document.getElementById("btnNorth").disabled = true;
-            document.getElementById("btnSouth").disabled = true;
-            document.getElementById("btnEast").disabled = true;
-         }  else {
-         if (currentLoc === "Room7") {
-            document.getElementById("btnWest").disabled = true;
-            document.getElementById("btnNorth").disabled = true;
-            document.getElementById("btnSouth").disabled = true;
-            document.getElementById("btnEast").disabled = true;
-         }
-            }
-            }
-            }
-            }
-            }
-            }
-      }
-
 //
 // END OF DOCUMENT ELEMENT UPDATES
 //

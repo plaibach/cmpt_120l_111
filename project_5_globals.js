@@ -7,23 +7,12 @@
 // BEGINNING OF DECLARE AND DEFINE GLOBAL VARIABLES AND CLASSES
 //
 
-   // Variables used for scoring and sarcasm.
-   // These will all go away with refactoring to location array
-   var hasVisitedRoom1 = true;
-   var hasVisitedRoom2 = false;
-   var hasVisitedRoom3 = false;
-   var hasVisitedRoom4 = false;
-   var hasVisitedRoom5 = false;
-   var hasVisitedRoom6 = false;
-   var hasVisitedRoom7 = false;
-   var hasVisitedRoom8 = false;
-   var hasVisitedRoom9 = false;
-   var hasVisitedRoom10 = false;
-
-   // Variables used for status textarea.
+   // Set variables used for status textarea
    var totalScore = 0;
    var previousLoc = "";
    var currentLoc = "Room1";
+
+   // Set variable text to display for Help
    var helpText = "You may navigate by clicking the directional buttons. You may also navigate by entering \"W\", \"N\", \"S\", or \"E\" in the command bar and then pressing [Enter] or clicking [Go].\n\nAll other actions are available only through use of the command bar. For example, your rucksack inventory may be displayed by typing \"Inventory\" in the command bar and then pressing [Enter] or clicking [Go].\n\nTry commands and phrases using keywords such as \"Look\", \"Find\", \"Take\", and \"Drop\".\n\nFor example, if you find a possibly useful item while stumbling about, a \"take [item]\" command might work. Even so, it's still up to you to figure out what is useful and how to use it.";
 
    // Begin variables and class/prototypes for locations
