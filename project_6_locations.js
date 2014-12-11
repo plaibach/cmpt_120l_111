@@ -1,7 +1,7 @@
 // Paul C. Laibach
    // Introduction to Programming
-   // Project 5 - Game v0.8
-   // Due 2014.11.30
+   // Final Project - Game v1.0
+   // Due 2014.12.11
 
 //
 // BEGINNING OF SEQUENTIAL NAVIGATION PROCESSING
