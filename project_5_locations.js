@@ -169,10 +169,22 @@
    }
 
    function takeItem() {
-      // I don't care what you asked for, you get the wrench.
-      alert("You've got the wrench.");
+      var playerAction = "txtCommand \"" + txtCommand.value + "\"";
+      var message = "takeItem message";
+      var multiPurposeText = "takeItem multiPurposeText";
+      updateMultiPurposeTextArea (playerAction, message, multiPurposeText);
    }
 
-//
-// END OF ARBITRARY NAVIGATION PROCESSING
-//
+   function dropItem() {
+      var playerAction = "txtCommand \"" + txtCommand.value + "\"";
+      var message = "Ehhh... You better hang on to that.";
+      var multiPurposeText = "dropItem multiPurposeText";
+      updateMultiPurposeTextArea (playerAction, message, multiPurposeText);
+   }
+
+   function findItem() {
+      var playerAction = "txtCommand \"" + txtCommand.value + "\"";
+      var message = "Find it yourself, bitch.";
+      var multiPurposeText = "findItem multiPurposeText";
+      updateMultiPurposeTextArea (playerAction, message, multiPurposeText);
+   }

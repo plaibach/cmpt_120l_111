@@ -16,7 +16,7 @@
          document.getElementById("btnTxtCommand").disabled = true;
          focusOnTxtCommand();
       }  else {
-            simpleTxtCommand();
+            processTxtCommands();
          }
    }
 
@@ -40,37 +40,46 @@
    // text was present and [Enter} key was pressed, or
    // text was present (therefore [Go] was enabled) and [Go] was clicked.
 
-   // Check for simple txtCommand of single character "w", "n", "s", or "e".
+   // Check txtCommand for single character directionals "w", "n", "s", or "e".
    // Call directional functions (same as corresponding button clicks) and pass player action variable.
-   function simpleTxtCommand() {
+   function processTxtCommands() {
       var playerAction = "txtCommand \"" + txtCommand.value + "\"";
       // Convert string to lower case for analysis
       var txtCommandLowcase = txtCommand.value.toLowerCase();
       switch(txtCommandLowcase) {
-         case "w": case "west":  attemptGoWest(playerAction);  break;
-         case "n": case "north": attemptGoNorth(playerAction); break;
-         case "s": case "south": attemptGoSouth(playerAction); break;
-         case "e": case "east":  attemptGoEast(playerAction);  break;
+         case "w": attemptGoWest(playerAction);  break;
+         case "n": attemptGoNorth(playerAction); break;
+         case "s": attemptGoSouth(playerAction); break;
+         case "e": attemptGoEast(playerAction);  break;
+         default: parsedTxtCommands();
+      }
+   }
+
+   // Check txtCommand for the substrings
+   // "west", "north", "south", "east", "help", "inv", "look", "take", "drop", and "find".
+   function parsedTxtCommands() {
+      var playerAction = "txtCommand \"" + txtCommand.value + "\"";
+      switch (true) {
+         case txtCommand.value.search(/west/i)  !== -1: attemptGoWest(playerAction);   break;
+         case txtCommand.value.search(/north/i) !== -1: attemptGoNorth(playerAction);  break;
+         case txtCommand.value.search(/south/i) !== -1: attemptGoSouth(playerAction);  break;
+         case txtCommand.value.search(/east/i)  !== -1: attemptGoEast(playerAction);   break;
+         case txtCommand.value.search(/help/i)  !== -1: showHelp(playerAction);        break;
+         case txtCommand.value.search(/inv/i)   !== -1: showInventory(playerAction);   break;
+         case txtCommand.value.search(/look/i)  !== -1: lookSee(playerAction);         break;
+         case txtCommand.value.search(/take/i)  !== -1: takeItem(playerAction);        break;
+         case txtCommand.value.search(/drop/i)  !== -1: dropItem(playerAction);        break;
+         case txtCommand.value.search(/find/i)  !== -1: findItem(playerAction);        break;
          default: specialTxtCommands();
       }
    }
 
-   // Check txtCommand for substrings "help", "inv", "take", "look", or a
-   // combination of "rub" && "lotion" which is used to escape from the Abyss.
+   // Check txtCommand for special combinations of substrings
+   // "rub" && "lotion" which is used to escape from the Abyss.
    function specialTxtCommands() {
       var playerAction = "txtCommand \"" + txtCommand.value + "\"";
-      if ((txtCommand.value.search(/help/i) !== -1)) {
-         showHelp(playerAction);
-      }  else if ((txtCommand.value.search(/inv/i) !== -1)) {
-         showInventory(playerAction);
-      }  else if ((txtCommand.value.search(/take/i) !== -1)) {
-         takeItem();
-      }  else if (currentLoc === "Room4") {
-                  if ((txtCommand.value.search(/rub/i) !== -1) && (txtCommand.value.search(/lotion/i) !== -1)) {
-                     escapedAbyss(playerAction);
-                  } else {
-                    unknownTxtCommand();
-                    }
+      if ((currentLoc === "Room4") && (txtCommand.value.search(/rub/i) !== -1) && (txtCommand.value.search(/lotion/i)) !== -1) {
+         escapedAbyss(playerAction);
       }  else {
          unknownTxtCommand();
       }
@@ -93,21 +102,21 @@
    function showInventory() {
       var playerAction = "txtCommand \"" + txtCommand.value + "\"";
       var message = "Inventory displayed at right -->";
-      var multiPurposeText = inventoryList;
+      var multiPurposeText = "showInventory multiPurposeText";
       updateMultiPurposeTextArea (playerAction, message, multiPurposeText);
    }
 
    function lookSee() {
       var playerAction = "txtCommand \"" + txtCommand.value + "\"";
-      var message = "Inventory displayed at right -->";
-      var multiPurposeText = lookSee;
+      var message = "lookSee message";
+      var multiPurposeText = "lookSee multiPurposeText";
       updateMultiPurposeTextArea (playerAction, message, multiPurposeText);
    }
 
    // Provide in-line help prompt when text commands are unrecognized by any other function.
    function unknownTxtCommand() {
       var playerAction = "txtCommand \"" + txtCommand.value + "\"";
-      var message = "Please type \"W\", \"N\", \"S\", or \"E\"; then press [Enter] or click [Go].\nYou may also request \"Help\" to view the full list of commands available.";
+      var message = "Please type a command and then press [Enter] or click [Go].\nUse the \"Help\" command to view examples of options available.";
       updateAllDisplays (playerAction, message);
    }
 
