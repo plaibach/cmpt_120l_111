@@ -168,6 +168,11 @@
       updateAllDisplays (playerAction, message);
    }
 
+   function takeItem() {
+      // I don't care what you asked for, you get the wrench.
+      alert("You've got the wrench.");
+   }
+
 //
 // END OF ARBITRARY NAVIGATION PROCESSING
 //
