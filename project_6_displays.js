@@ -3,13 +3,16 @@
    // Final Project - Game v1.0
    // Due 2014.12.11
 
-      // Functions available and required parameters are
-      //
-      //          updateMultiPurposeTextArea(playerAction, message, multiPurposeText)
-      // and
-      //          updateAllDisplays(playerAction, message)
-      //
-      // Use of the updateAllDisplays function clears any prior multiPurposeText
+      // Functions available and required parameters:
+
+         // updateMultiPurposeTextArea(playerAction, message, multiPurposeText)
+         // updateAllDisplays(playerAction, message)
+
+            // (...playerAction...)     function invoked and raw player command that invoked function  Appended taHistory
+            // (...message ...)         responses from game logic                                      Appended to taHistory
+            // (...multiPurposeText...) temporary text to be displayed separate from gameplay          Displays in taMultiPurpose
+
+         // Use of the updateAllDisplays function clears any prior multiPurposeText
 
 //
 // BEGINNING OF DOCUMENT ELEMENT UPDATES
